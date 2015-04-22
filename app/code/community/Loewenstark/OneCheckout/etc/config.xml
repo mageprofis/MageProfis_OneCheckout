@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Loewenstark Magento License (LML 1.0).
+ * It is  available through the world-wide-web at this URL:
+ * http://www.loewenstark.de/licenses/lml-1.0.html
+ * If you are unable to obtain it through the world-wide-web, please send an 
+ * email to license@loewenstark.de so we can send you a copy immediately.
+ *
+ * @category   Loewenstark
+ * @package    Loewenstark_OneCheckout
+ * @copyright  Copyright (c) 2012 Ulrich Abelmann
+ * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
+ * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
+ */
+-->
+<config>
+  <modules>
+    <Loewenstark_OneCheckout>
+      <version>0.1.0</version>
+    </Loewenstark_OneCheckout>
+  </modules>
+  <global>
+    <models>
+      <onecheckout>
+        <class>Loewenstark_OneCheckout_Model</class>
+      </onecheckout>
+    </models>
+    <blocks>
+      <onecheckout>
+        <class>Loewenstark_OneCheckout_Block</class>
+      </onecheckout>
+    </blocks>
+    <helpers>
+      <onecheckout>
+        <class>Loewenstark_OneCheckout_Helper</class>
+      </onecheckout>
+      <checkout>
+        <rewrite>
+          <url>Loewenstark_OneCheckout_Helper_Checkout_Url</url>
+        </rewrite>
+      </checkout>
+    </helpers>
+    <rewrite>
+      <loewenstark_onecheckout_onepage_index>
+        <from>
+          <![CDATA[#^/checkout$#]]>
+        </from>
+        <to>/onecheckout/onepage/index/</to>
+      </loewenstark_onecheckout_onepage_index>
+      <loewenstark_onecheckout_onepage_indexs>
+        <from>
+          <![CDATA[#^/checkout/$#]]>
+        </from>
+        <to>/onecheckout/onepage/index/</to>
+      </loewenstark_onecheckout_onepage_indexs>
+    </rewrite>
+    <events>
+      <controller_action_predispatch_onecheckout_ajax_update>
+        <observers>
+          <onecheckout_get_methods>
+            <type>singleton</type>
+            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <method>getCheckoutMethods</method>
+          </onecheckout_get_methods>
+        </observers>
+      </controller_action_predispatch_onecheckout_ajax_update>
+      <controller_action_layout_render_before_checkout_cart_index>
+        <observers>
+          <onepage_checkout_methods>
+            <type>singleton</type>
+            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <method>setCheckoutMethods</method>
+          </onepage_checkout_methods>
+        </observers>
+      </controller_action_layout_render_before_checkout_cart_index>
+      <controller_action_predispatch_checkout_onepage_saveOrder>
+        <observers>
+          <onepage_set_addresses>
+            <type>singleton</type>
+            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <method>setAddresses</method>
+          </onepage_set_addresses>
+        </observers>
+      </controller_action_predispatch_checkout_onepage_saveOrder>
+    </events>
+  </global>
+  <adminhtml>
+	<events>
+		<admin_system_config_changed_section_onecheckout>
+			<observers>
+				<onecheckout_store>
+					<type>singleton</type>
+					<class>Loewenstark_OneCheckout_Model_Observer</class>
+					<method>store</method>
+				</onecheckout_store>
+			</observers>
+		</admin_system_config_changed_section_onecheckout>
+	</events> 
+    <translate>
+      <modules>
+        <Loewenstark_OneCheckout>
+          <files>
+            <default>Loewenstark_OneCheckout.csv</default>
+          </files>
+        </Loewenstark_OneCheckout>
+      </modules>
+    </translate>
+    <acl>
+      <resources>
+        <admin>
+          <children>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <onecheckout>
+                      <title>Onestep Checkout</title>
+                    </onecheckout>
+                  </children>
+                </config>
+              </children>
+            </system>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+  </adminhtml>
+  <frontend>
+    <routers>
+      <onecheckout>
+        <use>standard</use>
+        <args>
+          <module>Loewenstark_OneCheckout</module>
+          <frontName>onecheckout</frontName>
+        </args>
+      </onecheckout>
+    </routers>
+    <secure_url>
+      <onecheckout>/onecheckout</onecheckout>
+    </secure_url>
+    <translate>
+      <modules>
+        <Loewenstark_OneCheckout>
+          <files>
+            <default>Loewenstark_OneCheckout.csv</default>
+          </files>
+        </Loewenstark_OneCheckout>
+      </modules>
+    </translate>
+    <layout>
+      <updates>
+        <onecheckout>
+          <file>onecheckout.xml</file>
+        </onecheckout>
+      </updates>
+    </layout>
+  </frontend>
+  <default>
+    <onecheckout>
+      <refresh>
+        <shipping_method>country,shipping_method,payment_method</shipping_method>
+        <payment_method>country,shipping_method,payment_method</payment_method>
+        <review>country,shipping_method,payment_method</review>
+      </refresh>
+    </onecheckout>
+  </default>
+</config>

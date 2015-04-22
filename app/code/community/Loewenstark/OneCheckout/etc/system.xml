@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Loewenstark Magento License (LML 1.0).
+ * It is  available through the world-wide-web at this URL:
+ * http://www.loewenstark.de/licenses/lml-1.0.html
+ * If you are unable to obtain it through the world-wide-web, please send an 
+ * email to license@loewenstark.de so we can send you a copy immediately.
+ *
+ * @category   Loewenstark
+ * @package    Loewenstark_OneCheckout
+ * @copyright  Copyright (c) 2012 Ulrich Abelmann
+ * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
+ * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
+ */
+-->
+<config>
+  <tabs>
+    <loewenstark>
+      <label>Loewenstark.de</label>
+      <sort_order>300</sort_order>
+    </loewenstark>
+  </tabs>
+  <sections>
+    <onecheckout translate="label">
+      <label>Onestep Checkout</label>
+      <tab>loewenstark</tab>
+      <frontend_type>text</frontend_type>
+      <sort_order>10</sort_order>
+      <show_in_default>1</show_in_default>
+      <show_in_website>1</show_in_website>
+      <show_in_store>1</show_in_store>
+      <groups>
+        <general translate="label">
+          <label>General</label>
+          <sort_order>10</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <active translate="label">
+              <label>Activated</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </active>
+            <serial translate="label">
+              <label>PRO License Serial</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>20</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </serial>
+			<websites translate="label">
+				<label>PRO License</label>
+				<frontend_type>checkbox</frontend_type>
+				<source_model>adminhtml/system_config_source_website</source_model>
+				<frontend_model>onecheckout/adminhtml_website</frontend_model>
+				<sort_order>30</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>0</show_in_website>
+				<show_in_store>0</show_in_store>
+			</websites>
+          </fields>
+        </general>
+        <refresh translate="label">
+          <label>Ajax Refresh Blocks</label>
+          <sort_order>20</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <shipping_method translate="label">
+              <label>Shipping Method: refresh when changing</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>onecheckout/source_trigger</source_model>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </shipping_method>
+            <payment_method translate="label">
+              <label>Payment Method: refresh when changing</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>onecheckout/source_trigger</source_model>
+              <sort_order>20</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </payment_method>
+            <review translate="label">
+              <label>Review: refresh when changing</label>
+              <frontend_type>multiselect</frontend_type>
+              <source_model>onecheckout/source_trigger</source_model>
+              <sort_order>30</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </review>
+          </fields>
+        </refresh>
+      </groups>
+    </onecheckout>
+  </sections>
+</config>
