@@ -16,7 +16,7 @@
  * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
  */
 
-class Loewenstark_OneCheckout_Helper_Checkout_Url extends Mage_Core_Helper_Url {
+class Loewenstark_OneCheckout_Helper_Checkout_Url extends Mage_Checkout_Helper_Url {
 
     public function getCheckoutUrl() {
 		if (Mage::helper("onecheckout")->isActive()) {

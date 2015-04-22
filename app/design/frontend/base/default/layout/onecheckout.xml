@@ -35,6 +35,14 @@
       <action method="addJs" ifconfig="payment/debit/active">
         <script>mage/debit/blzcheck.js</script>
       </action>
+      <!-- compatiblity stuff -->
+      <action method="addJs" ifconfig="onecheckout/compatibility/ogone">
+        <script>netresearch/ops/payment.js</script>
+      </action>
+      <action method="addCss" ifconfig="onecheckout/compatibility/ogone">
+        <stylesheet>css/ops.css</stylesheet>
+      </action>
+      <!-- end compatibility stuff -->
     </reference>
     <reference name="content">
       <block type="onecheckout/checkout" name="onecheckout" template="onecheckout/checkout.phtml">
@@ -82,7 +90,7 @@
       </block>
       <block type="core/text_list" name="additional.product.info" translate="label">
         <label>Additional Product Info</label>
-	    <block type="core/template" name="additional.product.info.attributes" template="onecheckout/attributes.phtml" />
+        <block type="core/template" name="additional.product.info.attributes" template="onecheckout/attributes.phtml" />
       </block>
     </reference>
     <reference name="checkout.onepage.agreements">
@@ -90,8 +98,6 @@
         <template>onecheckout/agreements.phtml</template>
       </action>
     </reference>
-	
-	
   </onecheckout_index_index>
   <!-- 
   	this is done by a controller 

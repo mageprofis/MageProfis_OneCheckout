@@ -687,6 +687,10 @@ Payment.prototype = {
     resetLoadWaiting: function(){
         checkout.setLoadWaiting(false);
     },
+	
+	save: function(){
+		// only for compatibility to ogone
+	},
 
     initWhatIsCvvListeners: function(){
         $$('.cvv-what-is-this').each(function(element){
@@ -721,3 +725,7 @@ Review.prototype = {
         checkout.setLoadWaiting(false, this.isSuccess);
     },
 }
+
+// only for compatibility to ogone
+accordion = new Object();
+accordion.openSection = function() {}
