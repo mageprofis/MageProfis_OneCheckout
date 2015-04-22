@@ -18,12 +18,22 @@
 
 class Loewenstark_OneCheckout_Model_Observer extends Mage_Core_Model_Abstract {
 	
+	public function redirect($observer) {
+		if (Mage::helper("onecheckout")->isActive()) {
+			$response = Mage::app()->getResponse();
+			$url = Mage::helper("onecheckout/checkout_url")->getCheckoutUrl();
+			$response->setRedirect($url);
+		}
+	}
+	
 	/* helpful if the checkout was rewritten 
 	   e.g. by mxperts noregion
 	*/
 	public function setCheckoutMethods() {
-		$this->_setCheckoutMethods("checkout.cart.methods");
-		$this->_setCheckoutMethods("checkout.cart.top_methods");
+		if (Mage::helper("onecheckout")->isActive()) {
+			$this->_setCheckoutMethods("checkout.cart.methods");
+			$this->_setCheckoutMethods("checkout.cart.top_methods");
+		}
 	}
 	
 	protected function _setCheckoutMethods($parentBlockName) {

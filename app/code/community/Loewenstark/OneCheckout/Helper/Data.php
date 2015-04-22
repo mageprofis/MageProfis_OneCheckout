@@ -31,7 +31,7 @@ class Loewenstark_OneCheckout_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 	
 	public function isActive() {
-		return true;
+		return Mage::getStoreConfig("onecheckout/general/active");
 	}
 	
 	public function l() {

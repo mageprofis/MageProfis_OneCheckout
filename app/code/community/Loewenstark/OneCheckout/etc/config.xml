@@ -43,7 +43,7 @@
         </rewrite>
       </checkout>
     </helpers>
-    <rewrite>
+    <!-- <rewrite>
       <loewenstark_onecheckout_onepage_index>
         <from>
           <![CDATA[#^/checkout$#]]>
@@ -56,8 +56,26 @@
         </from>
         <to>/onecheckout/onepage/index/</to>
       </loewenstark_onecheckout_onepage_indexs>
-    </rewrite>
+    </rewrite> -->
     <events>
+      <controller_action_predispatch_checkout_onepage_index>
+        <observers>
+          <onecheckout_get_methods>
+            <type>singleton</type>
+            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <method>redirect</method>
+          </onecheckout_get_methods>
+        </observers>
+      </controller_action_predispatch_checkout_onepage_index>
+      <controller_action_predispatch_checkout_index_index>
+        <observers>
+          <onecheckout_get_methods>
+            <type>singleton</type>
+            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <method>redirect</method>
+          </onecheckout_get_methods>
+        </observers>
+      </controller_action_predispatch_checkout_index_index>
       <controller_action_predispatch_onecheckout_ajax_update>
         <observers>
           <onecheckout_get_methods>

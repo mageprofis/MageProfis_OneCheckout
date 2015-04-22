@@ -19,7 +19,11 @@
 class Loewenstark_OneCheckout_Helper_Checkout_Url extends Mage_Core_Helper_Url {
 
     public function getCheckoutUrl() {
-        return $this->_getUrl('onecheckout');
+		if (Mage::helper("onecheckout")->isActive()) {
+	        return $this->_getUrl('onecheckout');
+		}
+		
+		return parent::getCheckoutUrl();
     }
 
 }

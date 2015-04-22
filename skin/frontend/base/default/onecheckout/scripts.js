@@ -140,6 +140,7 @@ OneCheckout.prototype = {
     init: function() {
 		this.agreements = $('checkout-agreements');
 		this.setTriggers("default");
+		that = this;
 
 		// show/hide shipping address
 		$("billing:use_for_shipping_no").observe("click", function() {
@@ -171,7 +172,7 @@ OneCheckout.prototype = {
 				$(this).hide();
 				new Effect.SlideDown("onecheckout-login-form", {duration:0.5});		
 
-				new Ajax.Request(this.preloginUrl, {
+				new Ajax.Request(that.preloginUrl, {
 					method:'post',
 				});	
 			});			

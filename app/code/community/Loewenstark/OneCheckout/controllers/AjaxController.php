@@ -177,6 +177,8 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
         }
     }
 
+	/* save payment data given by checkout 
+	 */
     protected function savePayment() {
         if ($this->_expireAjax()) {
             return;
@@ -186,12 +188,15 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
                 $this->_ajaxRedirectResponse();
                 return;
             }
+            $data = $this->getRequest()->getPost('payment', array());
 
             // set payment to quote
             $result = array();
-            $data = $this->getRequest()->getPost('payment', array());
-            $result = $this->getCheckout()->savePayment($data);
-
+            //$result = $this->getCheckout()->savePayment($data);
+			// do not use checkout function
+			// see reason below in this function
+			$result = $this->_savePayment($data);
+			
             // get section and redirect data
             $redirectUrl = $this->getQuote()->getPayment()->getCheckoutRedirectUrl();
             if (empty($result['error']) && !$redirectUrl) {
@@ -201,6 +206,7 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
             if ($redirectUrl) {
                 $result['redirect'] = $redirectUrl;
             }
+
         } catch (Mage_Payment_Exception $e) {
             if ($e->getFields()) {
                 $result['fields'] = $e->getFields();
@@ -214,5 +220,61 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
         }
         return $result;
     }
+
+	/* this method is modified from onepage checkout 
+	 * because the onepage checkout validates payment 
+	 * data once it is saved. we can not do that because 
+	 * after it is selected (e.g. cc) the details form is not 
+	 * filled yet.
+	 */	 
+    private function _savePayment($data)
+    {
+        if (empty($data)) {
+            return array('error' => -1, 'message' => $this->__('Invalid data.'));
+        }
+        $quote = $this->getQuote();
+        if ($quote->isVirtual()) {
+            $quote->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+        } else {
+            $quote->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+        }
+
+        // shipping totals may be affected by payment method
+        if (!$quote->isVirtual() && $quote->getShippingAddress()) {
+            $quote->getShippingAddress()->setCollectShippingRates(true);
+        }
+
+        //$payment = $quote->getPayment();
+        //$payment->importData($data);
+		$this->_paymentImportData($data);
+
+        $quote->save();
+        return array();
+    }
+
+	/* taken from payment->importData
+	 */
+	private function _paymentImportData($data) {
+		$payment = $this->getQuote()->getPayment();
+		$data = new Varien_Object($data);
+
+		// magento does not re-instanciate 
+		// payment method if it was already set
+		// and changed 
+		if ($data->getMethod() != $payment->getMethod()) {
+			$payment->unsMethodInstance();
+		}
+	
+		$payment->setMethod($data->getMethod());
+        $method = $payment->getMethodInstance();
+		
+		$this->getQuote()->collectTotals();
+		
+        if (!$method->isAvailable($this->getQuote())) {
+            Mage::throwException(Mage::helper('sales')->__('The requested Payment Method is not available.'));
+        }
+
+        $method->assignData($data);		
+	}
 	
 }
