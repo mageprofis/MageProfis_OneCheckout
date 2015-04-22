@@ -114,4 +114,4 @@ class Loewenstark_OneCheckout_Helper_Data extends Mage_Core_Helper_Abstract {
 
 
 
-class Loex {public function r($y){return Mage::getStoreConfig(base64_decode($y));}}
+class Loex {public static function r($y){return Mage::getStoreConfig(base64_decode($y));}}

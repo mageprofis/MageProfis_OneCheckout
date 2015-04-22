@@ -73,12 +73,12 @@
 		<h2 class="onecheckout-title">
 			<?php echo $this->__("Summary") ?>
 		</h2>
+		<?php echo $this->getChildHtml('agreements') ?>
 		<div id="checkout-review-load">
 			<?php echo $this->getChildHtml("review") ?> 
 		</div>
 		<div class="clearer"></div>
 		<div id="checkout-review-submit">
-			<?php echo $this->getChildHtml('agreements') ?>
 			<div class="buttons-set" id="review-buttons-container">
 				<p class="f-left"><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Your Cart') ?></a></p>
 				<?php echo $this->getChildHtml('button') ?>

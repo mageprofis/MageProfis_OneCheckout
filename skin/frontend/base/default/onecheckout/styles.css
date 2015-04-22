@@ -64,6 +64,17 @@
     margin-top: 10px;
 }
 
+/* agreements */
+.onecheckout-index-index .checkout-agreements li {
+	margin: 0;
+}
+.onecheckout-index-index .checkout-agreements .agree {
+	padding: 0 0 10px 0;
+}
+.onecheckout-index-index .checkout-agreements .agreement-content {
+	margin-bottom: 20px;
+}
+
 /* numbers */
 .onecheckout-index-index .onecheckout-title {
 	background: url("1.png") left center no-repeat;

@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 /**
  * NOTICE OF LICENSE
  *
@@ -12,14 +11,15 @@
  * @category   Loewenstark
  * @package    Loewenstark_OneCheckout
  * @copyright  Copyright (c) 2012 Ulrich Abelmann
- * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
+ * @copyright  Copyright (c) 2012 wwg.lÃ¶wenstark im Internet GmbH
  * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
  */
-
-class Loewenstark_OneCheckout_Onepage_IndexController extends Mage_Core_Controller_Front_Action {
-	
-    function indexAction() {
-        $this->_redirect('onecheckout', array('_secure'=>true));
-    }	
-	
-}
+?>
+<?php if ($_attributes = Mage::helper("onecheckout/attributes")->getAttributes($this->getParentBlock()->getItem())): ?>
+	<dl class="item-options">
+	<?php foreach($_attributes as $_attribute): ?>
+        <dt><?php echo $_attribute['label'] ?></dt>
+        <dd><?php echo $_attribute['value'] ?></dd>
+    <?php endforeach; ?>
+	</dl>
+<?php endif; ?>

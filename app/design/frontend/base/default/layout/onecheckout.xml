@@ -80,7 +80,18 @@
           </block>
         </block>
       </block>
+      <block type="core/text_list" name="additional.product.info" translate="label">
+        <label>Additional Product Info</label>
+	    <block type="core/template" name="additional.product.info.attributes" template="onecheckout/attributes.phtml" />
+      </block>
     </reference>
+    <reference name="checkout.onepage.agreements">
+      <action method="setTemplate" ifconfig="onecheckout/agreements/custom">
+        <template>onecheckout/agreements.phtml</template>
+      </action>
+    </reference>
+	
+	
   </onecheckout_index_index>
   <!-- 
   	this is done by a controller 

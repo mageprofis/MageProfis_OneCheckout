@@ -1,0 +1,41 @@
+<?php
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Loewenstark Magento License (LML 1.0).
+ * It is  available through the world-wide-web at this URL:
+ * http://www.loewenstark.de/licenses/lml-1.0.html
+ * If you are unable to obtain it through the world-wide-web, please send an 
+ * email to license@loewenstark.de so we can send you a copy immediately.
+ *
+ * @category   Loewenstark
+ * @package    Loewenstark_OneCheckout
+ * @copyright  Copyright (c) 2012 Ulrich Abelmann
+ * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
+ * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
+ */
+?>
+<?php
+/**
+ * @see Mage_Checkout_Block_Agreements
+ */
+?>
+<?php if (!$this->getAgreements()) return; ?>
+<form action="" id="checkout-agreements" onsubmit="return false;">
+<ol class="checkout-agreements">
+<?php foreach ($this->getAgreements() as $_a): ?>
+    <li>
+        <p class="agree">
+            <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" title="<?php echo $this->htmlEscape($_a->getCheckboxText()) ?>" class="checkbox" /><label for="agreement-<?php echo $_a->getId()?>"><?php echo Mage::helper("onecheckout/agreements")->getLinkedText($_a); ?></label>
+        </p>
+        <div style="display: none" id="agreement-content-<?php echo $_a->getId()?>" class="agreement-content"<?php echo ($_a->getContentHeight() ? ' style="height:' . $_a->getContentHeight() . '"' : '')?>>
+            <?php if ($_a->getIsHtml()):?>
+                <?php echo $_a->getContent() ?>
+            <?php else:?>
+                <?php echo nl2br($this->htmlEscape($_a->getContent())) ?>
+            <?php endif; ?>
+        </div>
+    </li>
+<?php endforeach ?>
+</ol>
+</form>

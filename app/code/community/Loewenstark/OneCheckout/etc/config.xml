@@ -106,17 +106,17 @@
     </events>
   </global>
   <adminhtml>
-	<events>
-		<admin_system_config_changed_section_onecheckout>
-			<observers>
-				<onecheckout_store>
-					<type>singleton</type>
-					<class>Loewenstark_OneCheckout_Model_Observer</class>
-					<method>store</method>
-				</onecheckout_store>
-			</observers>
-		</admin_system_config_changed_section_onecheckout>
-	</events> 
+    <events>
+      <admin_system_config_changed_section_onecheckout>
+        <observers>
+          <onecheckout_store>
+            <type>singleton</type>
+            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <method>store</method>
+          </onecheckout_store>
+        </observers>
+      </admin_system_config_changed_section_onecheckout>
+    </events>
     <translate>
       <modules>
         <Loewenstark_OneCheckout>
@@ -183,6 +183,21 @@
         <payment_method>country,shipping_method,payment_method</payment_method>
         <review>country,shipping_method,payment_method</review>
       </refresh>
+      <agreements>
+        <custom>1</custom>
+        <keywords><![CDATA[AGB
+AGBs
+Allgemeine Geschäftsbedinungen
+Allgemeinen Geschäftsbedingungen
+Widerrufsbedinungen
+Widerrufsbelehrung
+Widerrufsrecht]]></keywords>
+      </agreements>
+      <attributes>
+        <show>1</show>
+        <exclude><![CDATA[weight
+delivery_time]]></exclude>
+      </attributes>
     </onecheckout>
   </default>
 </config>
