@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!--
+/** * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Loewenstark Magento License (LML 1.0).
+ * It is  available through the world-wide-web at this URL:
+ * http://www.loewenstark.de/licenses/lml-1.0.html
+ * If you are unable to obtain it through the world-wide-web, please send an 
+ * email to license@loewenstark.de so we can send you a copy immediately.
+ *
+ * @category   Loewenstark
+ * @package    Loewenstark_OneCheckout
+ * @copyright  Copyright (c) 2012 Ulrich Abelmann
+ * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
+ * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
+ */
+-->
+<layout version="0.1.0">
+  <onecheckout_index_index translate="label">
+    <remove name="right"/>
+    <remove name="left"/>
+    <reference name="root">
+      <action method="setTemplate">
+        <template>page/1column.phtml</template>
+      </action>
+    </reference>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>onecheckout/styles.css</stylesheet>
+      </action>
+      <action method="addItem">
+        <type>skin_js</type>
+        <stylesheet>onecheckout/scripts.js</stylesheet>
+      </action>
+      <action method="addJs" ifconfig="payment/debit/active">
+        <script>mage/debit/blzcheck.js</script>
+      </action>
+    </reference>
+    <reference name="content">
+      <block type="onecheckout/checkout" name="onecheckout" template="onecheckout/checkout.phtml">
+        <block type="customer/form_login" name="customer_form_login" template="customer/form/mini.login.phtml"/>
+        <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml"/>
+        <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml"/>
+        <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method" template="checkout/onepage/shipping_method.phtml">
+          <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="checkout/onepage/shipping_method/available.phtml"/>
+          <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="checkout/onepage/shipping_method/additional.phtml"/>
+        </block>
+        <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment" template="checkout/onepage/payment.phtml">
+          <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="checkout/onepage/payment/methods.phtml">
+            <action method="setMethodFormTemplate">
+              <method>purchaseorder</method>
+              <template>payment/form/purchaseorder.phtml</template>
+            </action>
+          </block>
+        </block>
+        <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+        <block type="core/template" name="checkout.onepage.review.button" as="button" template="checkout/onepage/review/button.phtml"/>
+        <block type="checkout/onepage_review_info" name="review" template="onecheckout/review/info.phtml">
+          <action method="addItemRender">
+            <type>default</type>
+            <block>checkout/cart_item_renderer</block>
+            <template>checkout/onepage/review/item.phtml</template>
+          </action>
+          <action method="addItemRender">
+            <type>grouped</type>
+            <block>checkout/cart_item_renderer_grouped</block>
+            <template>checkout/onepage/review/item.phtml</template>
+          </action>
+          <action method="addItemRender">
+            <type>configurable</type>
+            <block>checkout/cart_item_renderer_configurable</block>
+            <template>checkout/onepage/review/item.phtml</template>
+          </action>
+          <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+          <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
+            <label>Items Before</label>
+          </block>
+          <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+            <label>Items After</label>
+          </block>
+        </block>
+      </block>
+    </reference>
+  </onecheckout_index_index>
+  <!-- 
+  	this is done by a controller 
+  	reason: mxperts noregion removes this layout
+  -->
+  <!-- <checkout_cart_index>
+    <reference name="checkout.cart.methods">
+       <block type="onecheckout/cart_method" name="checkout.cart.methods.onecheckout" template="onecheckout/cart/method.phtml"/>
+      <action method="unsetChild" ifconfig="onecheckout/general/active">
+        <name>checkout.cart.methods.onepage</name>
+      </action>
+    </reference>
+  </checkout_cart_index>
+  -->
+  <onecheckout_ajax_review translate="label">
+    <label>One Page Checkout Overview</label>
+    <!-- Mage_Checkout -->
+    <remove name="right"/>
+    <remove name="left"/>
+    <block type="checkout/onepage_review_info" name="root" output="toHtml" template="onecheckout/review/info.phtml">
+      <action method="addItemRender">
+        <type>default</type>
+        <block>checkout/cart_item_renderer</block>
+        <template>checkout/onepage/review/item.phtml</template>
+      </action>
+      <action method="addItemRender">
+        <type>grouped</type>
+        <block>checkout/cart_item_renderer_grouped</block>
+        <template>checkout/onepage/review/item.phtml</template>
+      </action>
+      <action method="addItemRender">
+        <type>configurable</type>
+        <block>checkout/cart_item_renderer_configurable</block>
+        <template>checkout/onepage/review/item.phtml</template>
+      </action>
+      <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+      <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
+        <label>Items Before</label>
+      </block>
+      <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+        <label>Items After</label>
+      </block>
+    </block>
+  </onecheckout_ajax_review>
+</layout>
