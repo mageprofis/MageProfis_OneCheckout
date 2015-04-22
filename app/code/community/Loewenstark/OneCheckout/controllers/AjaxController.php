@@ -52,10 +52,21 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
 
         return false;
     }
+	
+	public function preLoginAction() {
+		Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl("onecheckout"));
+		die(1);
+	}
+
+	protected function unCache() {
+		$layout = $this->getLayout();
+		$layout->getUpdate()->setCacheId("NOCACHE_" . microtime() . rand(1, 1000));
+	}
 
     protected function _getShippingMethodsHtml() {
         $layout = $this->getLayout();
         $update = $layout->getUpdate();
+		$this->unCache();
         $update->load('checkout_onepage_shippingmethod');
         $layout->generateXml();
         $layout->generateBlocks();
@@ -66,6 +77,7 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
     protected function _getPaymentMethodsHtml() {
         $layout = $this->getLayout();
         $update = $layout->getUpdate();
+		$this->unCache();
         $update->load('checkout_onepage_paymentmethod');
         $layout->generateXml();
         $layout->generateBlocks();
@@ -76,6 +88,7 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
 	protected function _getReviewHtml() {
         $layout = $this->getLayout();
         $update = $layout->getUpdate();
+		$this->unCache();
         $update->load('onecheckout_ajax_review');
         $layout->generateXml();
         $layout->generateBlocks();
@@ -88,11 +101,6 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
 			$result = array_merge_recursive($result, $tmpResult);
 		}
 		return $result;
-	}
-	
-	public function preLoginAction() {
-		Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl("onecheckout"));
-		die(1);
 	}
 
    	public function updateAction() {
@@ -108,9 +116,9 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
    
         $this->getQuote()->setTotalsCollectedFlag(false)->collectTotals()->save();
        
-		$result['updates']['checkout-review-load'] = $this->_getReviewHtml();
-		$result['updates']['checkout-shipping-method-load'] = $this->_getShippingMethodsHtml();
 		$result['updates']['checkout-payment-method-load'] = $this->_getPaymentMethodsHtml();
+		$result['updates']['checkout-shipping-method-load'] = $this->_getShippingMethodsHtml();
+		$result['updates']['checkout-review-load'] = $this->_getReviewHtml();
 		
 	   	$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }	
@@ -164,7 +172,6 @@ class Loewenstark_OneCheckout_AjaxController extends Mage_Core_Controller_Front_
                         array('request'=>$this->getRequest(),
                             'quote'=>$this->getQuote()));
                 $this->getQuote()->collectTotals();
-                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
             }
             return $result;
         }
