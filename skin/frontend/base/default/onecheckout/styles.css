@@ -59,6 +59,10 @@
 .onecheckout-index-index #onecheckout-login-form {
 	display: block;
 	margin-top: 10px;
+	padding-bottom: 20px;
+}
+.onecheckout-index-index #onecheckout-login-form .block {
+	margin-bottom: 0;
 }
 .onecheckout-index-index  .sp-methods dt {
     margin-top: 10px;

@@ -23,6 +23,7 @@
 		<?php echo $this->__('You already have an account? <a href="#" id="onecheckout-login">Login here.</a>') ?>
 		<div id="onecheckout-login-form" style="display: none">
 			<?php echo $this->getChildHtml("customer_form_login") ?>
+        	<a href="<?php echo $this->helper('customer')->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
 		</div>
 	<?php endif; ?>
 </div>

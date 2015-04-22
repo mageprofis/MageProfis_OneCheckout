@@ -230,6 +230,13 @@ OneCheckout.prototype = {
 				that.update("postcode");
 			});
 		}
+		
+		if (source == "default" && $("billing:use_for_shipping_yes")) {
+			$("billing:use_for_shipping_yes").observe("click", function() {
+				// todo: there might be a better update cause
+				that.update("country");
+			});
+		}
 	},
 
     evaluateResponse: function(transport){
