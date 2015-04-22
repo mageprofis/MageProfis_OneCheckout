@@ -107,6 +107,10 @@ OneCheckout.prototype = {
 		});		
 	},
 	
+	setLoadWaiting: function(flag) {
+		// compability for ogone payment
+	},
+	
 	setLoading: function(flag) {
 		//areas = new Array("checkout-review-load", "checkout-shipping-method-load", "checkout-payment-method-load");
 		areas = this.updateAreas;
@@ -132,7 +136,9 @@ OneCheckout.prototype = {
 		}
 		this.getSteps();
 		for (i = 0; i < this.steps.length; i++) {
-			Object.extend(paras, $(this.steps[i].form).serialize(true));
+			if ($(this.steps[i].form)) {
+				Object.extend(paras, $(this.steps[i].form).serialize(true));
+			}
 		}
 		return paras;
 	},
@@ -718,6 +724,7 @@ Review.prototype = {
     },
 
     save: function(){
+		payment.save(); // ogone compatiblity
        	checkout.save();
     },
 
