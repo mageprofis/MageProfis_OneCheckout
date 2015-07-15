@@ -10,167 +10,167 @@
  */
 -->
 <config>
-  <tabs>
-    <mageprofis>
-      <label>MageProfis</label>
-      <sort_order>300</sort_order>
-    </mageprofis>
-  </tabs>
-  <sections>
-    <onecheckout translate="label">
-      <label>Onestep Checkout</label>
-      <tab>mageprofis</tab>
-      <frontend_type>text</frontend_type>
-      <sort_order>10</sort_order>
-      <show_in_default>1</show_in_default>
-      <show_in_website>1</show_in_website>
-      <show_in_store>1</show_in_store>
-      <groups>
-        <general translate="label">
-          <label>General</label>
-          <sort_order>10</sort_order>
-          <show_in_default>1</show_in_default>
-          <show_in_website>1</show_in_website>
-          <show_in_store>1</show_in_store>
-          <fields>
-            <active translate="label">
-              <label>Activated</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>10</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </active>
-            <serial translate="label">
-              <label>PRO License Serial</label>
-              <frontend_type>text</frontend_type>
-              <sort_order>20</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </serial>
-			<websites translate="label">
-				<label>PRO License</label>
-				<frontend_type>checkbox</frontend_type>
-				<source_model>adminhtml/system_config_source_website</source_model>
-				<frontend_model>onecheckout/adminhtml_website</frontend_model>
-				<sort_order>30</sort_order>
-				<show_in_default>1</show_in_default>
-				<show_in_website>0</show_in_website>
-				<show_in_store>0</show_in_store>
-			</websites>
-          </fields>
-        </general>
-        <refresh translate="label">
-          <label>Ajax Refresh Blocks</label>
-          <sort_order>20</sort_order>
-          <show_in_default>1</show_in_default>
-          <show_in_website>1</show_in_website>
-          <show_in_store>1</show_in_store>
-          <fields>
-            <shipping_method translate="label">
-              <label>Shipping Method: refresh when changing</label>
-              <frontend_type>multiselect</frontend_type>
-              <source_model>onecheckout/source_trigger</source_model>
-              <sort_order>10</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </shipping_method>
-            <payment_method translate="label">
-              <label>Payment Method: refresh when changing</label>
-              <frontend_type>multiselect</frontend_type>
-              <source_model>onecheckout/source_trigger</source_model>
-              <sort_order>20</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </payment_method>
-            <review translate="label">
-              <label>Review: refresh when changing</label>
-              <frontend_type>multiselect</frontend_type>
-              <source_model>onecheckout/source_trigger</source_model>
-              <sort_order>30</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </review>
-          </fields>
-        </refresh>
-        <agreements translate="label">
-          <label>Sales agreements</label>
-          <sort_order>30</sort_order>
-          <show_in_default>1</show_in_default>
-          <show_in_website>1</show_in_website>
-          <show_in_store>1</show_in_store>
-          <fields>
-            <custom translate="label">
-              <label>Custom template</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>10</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-			  <comment>Hide agreement content until keywords are clicked</comment>
-            </custom>
-            <keywords translate="label">
-              <label>Keywords</label>
-              <frontend_type>textarea</frontend_type>
-              <sort_order>20</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-			  <comment>Activate as link in agreement title to show content</comment>
-            </keywords>
-          </fields>
-        </agreements>
-        <attributes translate="label">
-          <label>Attributes in review</label>
-          <sort_order>40</sort_order>
-          <show_in_default>1</show_in_default>
-          <show_in_website>1</show_in_website>
-          <show_in_store>1</show_in_store>
-          <fields>
-            <show translate="label">
-              <label>Show frontend attributes</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>10</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </show>
-            <exclude translate="label">
-              <label>Exclude these attributes</label>
-              <frontend_type>textarea</frontend_type>
-              <sort_order>20</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </exclude>
-          </fields>
-        </attributes>
-        <compatibility translate="label">
-          <label>Compatibility with other extensions</label>
-          <sort_order>900</sort_order>
-          <show_in_default>1</show_in_default>
-          <show_in_website>1</show_in_website>
-          <show_in_store>1</show_in_store>
-          <fields>
-            <ogone translate="label">
-              <label>Ogone Payments</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>10</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </ogone>
-          </fields>
-        </compatibility>
-      </groups>
-    </onecheckout>
-  </sections>
+    <tabs>
+        <mageprofis>
+            <label>MageProfis</label>
+            <sort_order>300</sort_order>
+        </mageprofis>
+    </tabs>
+    <sections>
+        <onecheckout translate="label">
+            <label>Onestep Checkout</label>
+            <tab>mageprofis</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Activated</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <serial translate="label">
+                            <label>PRO License Serial</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </serial>
+                        <websites translate="label">
+                            <label>PRO License</label>
+                            <frontend_type>checkbox</frontend_type>
+                            <source_model>adminhtml/system_config_source_website</source_model>
+                            <frontend_model>onecheckout/adminhtml_website</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </websites>
+                    </fields>
+                </general>
+                <refresh translate="label">
+                    <label>Ajax Refresh Blocks</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <shipping_method translate="label">
+                            <label>Shipping Method: refresh when changing</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>onecheckout/source_trigger</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_method>
+                        <payment_method translate="label">
+                            <label>Payment Method: refresh when changing</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>onecheckout/source_trigger</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </payment_method>
+                        <review translate="label">
+                            <label>Review: refresh when changing</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>onecheckout/source_trigger</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </review>
+                    </fields>
+                </refresh>
+                <agreements translate="label">
+                    <label>Sales agreements</label>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <custom translate="label">
+                            <label>Custom template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Hide agreement content until keywords are clicked</comment>
+                        </custom>
+                        <keywords translate="label">
+                            <label>Keywords</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Activate as link in agreement title to show content</comment>
+                        </keywords>
+                    </fields>
+                </agreements>
+                <attributes translate="label">
+                    <label>Attributes in review</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <show translate="label">
+                            <label>Show frontend attributes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show>
+                        <exclude translate="label">
+                            <label>Exclude these attributes</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </exclude>
+                    </fields>
+                </attributes>
+                <compatibility translate="label">
+                    <label>Compatibility with other extensions</label>
+                    <sort_order>900</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <ogone translate="label">
+                            <label>Ogone Payments</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ogone>
+                    </fields>
+                </compatibility>
+            </groups>
+        </onecheckout>
+    </sections>
 </config>
