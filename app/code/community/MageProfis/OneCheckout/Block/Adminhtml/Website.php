@@ -1,22 +1,14 @@
 <?php 
-
 /**
- * NOTICE OF LICENSE
  *
- * This source file is subject to the Loewenstark Magento License (LML 1.0).
- * It is  available through the world-wide-web at this URL:
- * http://www.loewenstark.de/licenses/lml-1.0.html
- * If you are unable to obtain it through the world-wide-web, please send an 
- * email to license@loewenstark.de so we can send you a copy immediately.
- *
- * @category   Loewenstark
- * @package    Loewenstark_OneCheckout
- * @copyright  Copyright (c) 2012 Ulrich Abelmann
- * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
- * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
+ * @category   MageProfis
+ * @package    MageProfis_OneCheckout
+ * @copyright  Copyright (c) 2015 Ulrich Abelmann
+ * @copyright  Copyright (c) 2015 MageProfis GmbH
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 		
-class Loewenstark_OneCheckout_Block_Adminhtml_Website extends Mage_Adminhtml_Block_System_Config_Form_Field {
+
+class MageProfis_OneCheckout_Block_Adminhtml_Website extends Mage_Adminhtml_Block_System_Config_Form_Field {
 
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element) {
     	$html = '';

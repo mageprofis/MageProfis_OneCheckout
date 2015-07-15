@@ -1,68 +1,47 @@
 <?xml version="1.0"?>
 <!--
 /**
- * NOTICE OF LICENSE
  *
- * This source file is subject to the Loewenstark Magento License (LML 1.0).
- * It is  available through the world-wide-web at this URL:
- * http://www.loewenstark.de/licenses/lml-1.0.html
- * If you are unable to obtain it through the world-wide-web, please send an 
- * email to license@loewenstark.de so we can send you a copy immediately.
- *
- * @category   Loewenstark
- * @package    Loewenstark_OneCheckout
- * @copyright  Copyright (c) 2012 Ulrich Abelmann
- * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
- * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
+ * @category   MageProfis
+ * @package    MageProfis_OneCheckout
+ * @copyright  Copyright (c) 2015 Ulrich Abelmann
+ * @copyright  Copyright (c) 2015 MageProfis GmbH
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <config>
   <modules>
-    <Loewenstark_OneCheckout>
+    <MageProfis_OneCheckout>
       <version>0.1.0</version>
-    </Loewenstark_OneCheckout>
+    </MageProfis_OneCheckout>
   </modules>
   <global>
     <models>
       <onecheckout>
-        <class>Loewenstark_OneCheckout_Model</class>
+        <class>MageProfis_OneCheckout_Model</class>
       </onecheckout>
     </models>
     <blocks>
       <onecheckout>
-        <class>Loewenstark_OneCheckout_Block</class>
+        <class>MageProfis_OneCheckout_Block</class>
       </onecheckout>
     </blocks>
     <helpers>
       <onecheckout>
-        <class>Loewenstark_OneCheckout_Helper</class>
+        <class>MageProfis_OneCheckout_Helper</class>
       </onecheckout>
       <checkout>
         <rewrite>
-          <url>Loewenstark_OneCheckout_Helper_Checkout_Url</url>
+          <url>MageProfis_OneCheckout_Helper_Checkout_Url</url>
         </rewrite>
       </checkout>
     </helpers>
-    <!-- <rewrite>
-      <loewenstark_onecheckout_onepage_index>
-        <from>
-          <![CDATA[#^/checkout$#]]>
-        </from>
-        <to>/onecheckout/onepage/index/</to>
-      </loewenstark_onecheckout_onepage_index>
-      <loewenstark_onecheckout_onepage_indexs>
-        <from>
-          <![CDATA[#^/checkout/$#]]>
-        </from>
-        <to>/onecheckout/onepage/index/</to>
-      </loewenstark_onecheckout_onepage_indexs>
-    </rewrite> -->
     <events>
       <controller_action_predispatch_checkout_onepage_index>
         <observers>
           <onecheckout_get_methods>
             <type>singleton</type>
-            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <class>MageProfis_OneCheckout_Model_Observer</class>
             <method>redirect</method>
           </onecheckout_get_methods>
         </observers>
@@ -71,7 +50,7 @@
         <observers>
           <onecheckout_get_methods>
             <type>singleton</type>
-            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <class>MageProfis_OneCheckout_Model_Observer</class>
             <method>redirect</method>
           </onecheckout_get_methods>
         </observers>
@@ -80,7 +59,7 @@
         <observers>
           <onecheckout_get_methods>
             <type>singleton</type>
-            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <class>MageProfis_OneCheckout_Model_Observer</class>
             <method>getCheckoutMethods</method>
           </onecheckout_get_methods>
         </observers>
@@ -89,7 +68,7 @@
         <observers>
           <onepage_checkout_methods>
             <type>singleton</type>
-            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <class>MageProfis_OneCheckout_Model_Observer</class>
             <method>setCheckoutMethods</method>
           </onepage_checkout_methods>
         </observers>
@@ -98,7 +77,7 @@
         <observers>
           <onepage_set_addresses>
             <type>singleton</type>
-            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <class>MageProfis_OneCheckout_Model_Observer</class>
             <method>setAddresses</method>
           </onepage_set_addresses>
         </observers>
@@ -111,7 +90,7 @@
         <observers>
           <onecheckout_store>
             <type>singleton</type>
-            <class>Loewenstark_OneCheckout_Model_Observer</class>
+            <class>MageProfis_OneCheckout_Model_Observer</class>
             <method>store</method>
           </onecheckout_store>
         </observers>
@@ -119,11 +98,11 @@
     </events>
     <translate>
       <modules>
-        <Loewenstark_OneCheckout>
+        <MageProfis_OneCheckout>
           <files>
-            <default>Loewenstark_OneCheckout.csv</default>
+            <default>MageProfis_OneCheckout.csv</default>
           </files>
-        </Loewenstark_OneCheckout>
+        </MageProfis_OneCheckout>
       </modules>
     </translate>
     <acl>
@@ -151,7 +130,7 @@
       <onecheckout>
         <use>standard</use>
         <args>
-          <module>Loewenstark_OneCheckout</module>
+          <module>MageProfis_OneCheckout</module>
           <frontName>onecheckout</frontName>
         </args>
       </onecheckout>
@@ -161,11 +140,11 @@
     </secure_url>
     <translate>
       <modules>
-        <Loewenstark_OneCheckout>
+        <MageProfis_OneCheckout>
           <files>
-            <default>Loewenstark_OneCheckout.csv</default>
+            <default>MageProfis_OneCheckout.csv</default>
           </files>
-        </Loewenstark_OneCheckout>
+        </MageProfis_OneCheckout>
       </modules>
     </translate>
     <layout>

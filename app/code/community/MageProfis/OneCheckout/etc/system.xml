@@ -1,32 +1,25 @@
 <?xml version="1.0"?>
 <!--
 /**
- * NOTICE OF LICENSE
  *
- * This source file is subject to the Loewenstark Magento License (LML 1.0).
- * It is  available through the world-wide-web at this URL:
- * http://www.loewenstark.de/licenses/lml-1.0.html
- * If you are unable to obtain it through the world-wide-web, please send an 
- * email to license@loewenstark.de so we can send you a copy immediately.
- *
- * @category   Loewenstark
- * @package    Loewenstark_OneCheckout
- * @copyright  Copyright (c) 2012 Ulrich Abelmann
- * @copyright  Copyright (c) 2012 wwg.löwenstark im Internet GmbH
- * @license    http://www.loewenstark.de/licenses/lml-1.0.html  Loewenstark Magento License (LML 1.0)
+ * @category   MageProfis
+ * @package    MageProfis_OneCheckout
+ * @copyright  Copyright (c) 2015 Ulrich Abelmann
+ * @copyright  Copyright (c) 2015 MageProfis GmbH
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 -->
 <config>
   <tabs>
-    <loewenstark>
-      <label>Loewenstark.de</label>
+    <mageprofis>
+      <label>MageProfis</label>
       <sort_order>300</sort_order>
-    </loewenstark>
+    </mageprofis>
   </tabs>
   <sections>
     <onecheckout translate="label">
       <label>Onestep Checkout</label>
-      <tab>loewenstark</tab>
+      <tab>mageprofis</tab>
       <frontend_type>text</frontend_type>
       <sort_order>10</sort_order>
       <show_in_default>1</show_in_default>
