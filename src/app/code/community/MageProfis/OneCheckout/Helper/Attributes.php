@@ -8,7 +8,8 @@
  * @copyright  Copyright (c) 2015 MageProfis GmbH
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MageProfis_OneCheckout_Helper_Attributes extends Mage_Core_Helper_Abstract
+class MageProfis_OneCheckout_Helper_Attributes
+extends Mage_Core_Helper_Abstract
 {
 
     protected $_finished = array();

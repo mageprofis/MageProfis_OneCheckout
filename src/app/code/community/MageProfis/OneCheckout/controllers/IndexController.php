@@ -8,7 +8,8 @@
  * @copyright  Copyright (c) 2015 MageProfis GmbH
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MageProfis_OneCheckout_IndexController extends Mage_Checkout_Controller_Action
+class MageProfis_OneCheckout_IndexController
+extends Mage_Checkout_Controller_Action
 {
 
     public function indexAction()
@@ -36,17 +37,30 @@ class MageProfis_OneCheckout_IndexController extends Mage_Checkout_Controller_Ac
         $this->renderLayout();
     }
 
+    /**
+     * 
+     * @return Mage_Checkout_Model_Type_Onepage
+     */
     protected function getCheckout()
     {
         return Mage::getSingleton('checkout/type_onepage');
     }
 
+    /**
+     * 
+     * @return Mage_Sales_Model_Quote
+     */
     protected function getQuote()
     {
         return $this->getCheckout()->getQuote();
     }
 
-    private function initAddress($address)
+    /**
+     * init Address
+     * 
+     * @param array $address
+     */
+    protected function initAddress($address)
     {
         $country = $address->getCountryId();
         if (empty($country)) {
@@ -61,6 +75,9 @@ class MageProfis_OneCheckout_IndexController extends Mage_Checkout_Controller_Ac
         }
     }
 
+    /**
+     * init Checkout
+     */
     protected function initCheckout()
     {
         Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
@@ -98,6 +115,12 @@ class MageProfis_OneCheckout_IndexController extends Mage_Checkout_Controller_Ac
         $quote->collectTotals();
     }
 
+    /**
+     * check if multicheckout is active and
+     * remove all other addresses from quote
+     * 
+     * @return MageProfis_OneCheckout_IndexController
+     */
     public function preDispatch()
     {
         parent::preDispatch();
@@ -108,8 +131,6 @@ class MageProfis_OneCheckout_IndexController extends Mage_Checkout_Controller_Ac
             $checkoutSessionQuote->setIsMultiShipping(false);
             $checkoutSessionQuote->removeAllAddresses();
         }
-
         return $this;
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @category   MageProfis
@@ -8,9 +7,13 @@
  * @copyright  Copyright (c) 2015 MageProfis GmbH
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MageProfis_OneCheckout_Model_Source_Trigger extends Mage_Core_Model_Abstract
+class MageProfis_OneCheckout_Model_Source_Trigger
+extends Mage_Core_Model_Abstract
 {
-
+    /**
+     * 
+     * @return array
+     */
     public function toOptionArray()
     {
         $options = array('-none-', 'Country', 'Postcode', 'State/Region', 'Shipping Method', 'Payment Method');
@@ -25,5 +28,4 @@ class MageProfis_OneCheckout_Model_Source_Trigger extends Mage_Core_Model_Abstra
 
         return $temp;
     }
-
 }

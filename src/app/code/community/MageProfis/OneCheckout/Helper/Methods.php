@@ -8,7 +8,8 @@
  * @copyright  Copyright (c) 2015 MageProfis GmbH
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MageProfis_OneCheckout_Helper_Methods extends Mage_Core_Helper_Abstract
+class MageProfis_OneCheckout_Helper_Methods
+extends Mage_Core_Helper_Abstract
 {
     /**
      * @return Mage_Checkout_Model_Type_Onepage
@@ -27,6 +28,11 @@ class MageProfis_OneCheckout_Helper_Methods extends Mage_Core_Helper_Abstract
         return $this->getCheckout()->getQuote();
     }
 
+    /**
+     * get Shipping Methods
+     * 
+     * @return array
+     */
     public function getShipping()
     {
         $quote = $this->getQuote();
@@ -60,6 +66,11 @@ class MageProfis_OneCheckout_Helper_Methods extends Mage_Core_Helper_Abstract
         return $list;
     }
 
+    /**
+     * get First Shipping Method
+     * 
+     * @return boolean|Varien_Object
+     */
     public function getFirstShipping()
     {
         $methods = $this->getShipping();
@@ -69,6 +80,11 @@ class MageProfis_OneCheckout_Helper_Methods extends Mage_Core_Helper_Abstract
         return false;
     }
 
+    /**
+     * get Payment Methods
+     * 
+     * @return array
+     */
     public function getPayment()
     {
         $quote = $this->getQuote();
@@ -86,6 +102,11 @@ class MageProfis_OneCheckout_Helper_Methods extends Mage_Core_Helper_Abstract
         return $methods;
     }
 
+    /**
+     * get First Payment Method
+     * 
+     * @return boolean|Varien_Object
+     */
     public function getFirstPayment()
     {
         $methods = $this->getPayment();
@@ -95,6 +116,12 @@ class MageProfis_OneCheckout_Helper_Methods extends Mage_Core_Helper_Abstract
         return false;
     }
 
+    /**
+     * can Use Payment Method
+     * 
+     * @param string $method
+     * @return boolean
+     */
     protected function _canUsePaymentMethod($method)
     {
         if (!$method->canUseForCountry($this->getQuote()->getBillingAddress()->getCountry())) {

@@ -23,5 +23,4 @@ extends Mage_Checkout_Helper_Url
 
         return parent::getCheckoutUrl();
     }
-
 }

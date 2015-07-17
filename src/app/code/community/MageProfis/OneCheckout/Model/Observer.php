@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @category   MageProfis
@@ -10,18 +9,24 @@
  */
 class MageProfis_OneCheckout_Model_Observer extends Mage_Core_Model_Abstract
 {
-
+    /**
+     * 
+     * @param Varien_Object $observer
+     */
     public function redirect($observer)
     {
-        if (Mage::helper('onecheckout')->isActive()) {
-            $response = Mage::app()->getResponse();
+        if (Mage::helper('onecheckout')->isActive())
+        {
             $url = Mage::helper('onecheckout/checkout_url')->getCheckoutUrl();
-            $response->setRedirect($url);
+            Mage::app()->getResponse()
+                ->setRedirect($url, 301)
+                ->sendResponse();
         }
     }
 
-    /* helpful if the checkout was rewritten 
-      e.g. by mxperts noregion
+    /**
+     * helpful if the checkout was rewritten 
+     * e.g. by mxperts noregion
      */
     public function setCheckoutMethods()
     {
@@ -31,6 +36,11 @@ class MageProfis_OneCheckout_Model_Observer extends Mage_Core_Model_Abstract
         }
     }
 
+    /**
+     * set Checkout Methods Block
+     * 
+     * @param string $parentBlockName
+     */
     protected function _setCheckoutMethods($parentBlockName)
     {
         $layout = Mage::app()->getLayout();
@@ -46,6 +56,9 @@ class MageProfis_OneCheckout_Model_Observer extends Mage_Core_Model_Abstract
         }
     }
 
+    /**
+     * set Addresses
+     */
     public function setAddresses($observer)
     {
         Mage::helper("onecheckout")->setAddresses();

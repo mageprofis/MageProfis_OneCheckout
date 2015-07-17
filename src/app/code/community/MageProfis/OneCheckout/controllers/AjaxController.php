@@ -8,7 +8,8 @@
  * @copyright  Copyright (c) 2015 MageProfis GmbH
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_Action
+class MageProfis_OneCheckout_AjaxController
+extends Mage_Core_Controller_Front_Action
 {
 
     /**
@@ -69,17 +70,34 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         return false;
     }
 
+    /**
+     * set Redirect Url for Login Page
+     * 
+     * @return MageProfis_OneCheckout_AjaxController
+     */
     public function preLoginAction()
     {
         Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('onecheckout'));
+        return $this;
     }
 
+    /**
+     * set unCache for Ajax Requests
+     * 
+     * @return MageProfis_OneCheckout_AjaxController
+     */
     protected function unCache()
     {
         $layout = $this->getLayout();
         $layout->getUpdate()->setCacheId('NOCACHE_' . microtime() . rand(1, 1000));
+        return $this;
     }
 
+    /**
+     * get Shipping Methods Html
+     * 
+     * @return string
+     */
     protected function _getShippingMethodsHtml()
     {
         $layout = $this->getLayout();
@@ -92,6 +110,11 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         return $output;
     }
 
+    /**
+     * get Payment Methods Html
+     * 
+     * @return string
+     */
     protected function _getPaymentMethodsHtml()
     {
         $layout = $this->getLayout();
@@ -104,6 +127,11 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         return $output;
     }
 
+    /**
+     * get Review Html
+     * 
+     * @return string
+     */
     protected function _getReviewHtml()
     {
         $layout = $this->getLayout();
@@ -116,7 +144,14 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         return $output;
     }
 
-    private function _merge($result, $tmpResult)
+    /**
+     * _merge Arrays
+     * 
+     * @param array $result
+     * @param array $tmpResult
+     * @return array
+     */
+    protected function _merge($result, $tmpResult)
     {
         if (is_array($tmpResult)) {
             $result = array_merge_recursive($result, $tmpResult);
@@ -124,10 +159,19 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         return $result;
     }
 
+    /**
+     * update Action, returns json string
+     * 
+     * @return MageProfis_OneCheckout_AjaxController
+     */
     public function updateAction()
     {
         if ($this->_expireAjax()) {
-            return;
+            return $this;
+        }
+        
+        if (!$this->getRequest()->isPost()) {
+            return $this;
         }
 
         $this->importDataToAddresses();
@@ -142,10 +186,18 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         $result['updates']['checkout-shipping-method-load'] = $this->_getShippingMethodsHtml();
         $result['updates']['checkout-review-load'] = $this->_getReviewHtml();
 
+        $this->getResponse()->setHeader('Content-type', 'application/json', true);
+        $this->getResponse()->setHeader('X-Robots-Tag', 'noindex, nofollow', true);
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        return $this;
     }
 
-    private function importDataToAddresses()
+    /**
+     * import Data To Adresses
+     * 
+     * @return MageProfis_OneCheckout_AjaxController
+     */
+    protected function importDataToAddresses()
     {
         $billingAddressId = $this->getRequest()->getPost('billing_address_id', false);
         $billingData = $this->getRequest()->getPost('billing', array());
@@ -178,13 +230,20 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
             $addressData = $addressForm->extractData($addressForm->prepareRequest($shippingData));
             $addressForm->compactData($addressData);
         }
+        return $this;
     }
 
+    /**
+     * save Shipping Method
+     * 
+     * @return Model
+     */
     protected function saveShippingMethod()
     {
         if ($this->_expireAjax()) {
             return;
         }
+
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping_method', '');
             $result = $this->getCheckout()->saveShippingMethod($data);
@@ -200,9 +259,11 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         }
     }
 
-    /* save payment data given by checkout 
+    /**
+     * save Payment Method
+     * 
+     * @return type
      */
-
     protected function savePayment()
     {
         if ($this->_expireAjax()) {
@@ -245,14 +306,16 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         return $result;
     }
 
-    /* this method is modified from onepage checkout 
+    /**
+     * this method is modified from onepage checkout 
      * because the onepage checkout validates payment 
      * data once it is saved. we can not do that because 
      * after it is selected (e.g. cc) the details form is not 
      * filled yet.
+     * 
+     * @retrun array
      */
-
-    private function _savePayment($data)
+    protected function _savePayment($data)
     {
         if (empty($data)) {
             return array('error' => -1, 'message' => $this->__('Invalid data.'));
@@ -277,10 +340,10 @@ class MageProfis_OneCheckout_AjaxController extends Mage_Core_Controller_Front_A
         return array();
     }
 
-    /* taken from payment->importData
+    /**
+     * taken from payment->importData
      */
-
-    private function _paymentImportData($data)
+    protected function _paymentImportData($data)
     {
         $payment = $this->getQuote()->getPayment();
         $data = new Varien_Object($data);
