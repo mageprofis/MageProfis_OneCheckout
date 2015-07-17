@@ -29,4 +29,54 @@ extends Mage_Core_Block_Template
     {
         return Mage::getStoreConfigFlag('onecheckout/general/showcarteditionbutton');
     }
+
+    /**
+     * get Ajax / Save Url
+     * 
+     * @return string
+     */
+    public function getAjaxSaveUrl()
+    {
+        return Mage::getUrl('onecheckout/ajax/update');
+    }
+
+    /**
+     * get Failure Url
+     * 
+     * @return string
+     */
+    public function getFailureUrl()
+    {
+        return Mage::getUrl('checkout/cart');
+    }
+
+    /**
+     * get Complete Url
+     * 
+     * @return string
+     */
+    public function getCompleteUrl()
+    {
+        return Mage::getUrl('checkout/onepage/saveOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey()));
+    }
+
+    /**
+     * get Success Url
+     * 
+     * @return string
+     */
+    public function getSuccessUrl()
+    {
+        return Mage::getUrl('checkout/onepage/success');
+    }
+
+    /**
+     * get pre Login Url
+     * 
+     * @return string
+     */
+    public function getPreLoginUrl()
+    {
+        return Mage::getUrl('onecheckout/ajax/preLogin');
+    }
 }

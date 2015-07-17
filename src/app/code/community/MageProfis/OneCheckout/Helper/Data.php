@@ -56,14 +56,13 @@ extends Mage_Core_Helper_Abstract
     public function setAddresses()
     {
         $result = array();
-        $request = Mage::app()->getRequest();
-        if ($this->isActive() && $request->isPost()) {
-            $data = $request->getPost('billing', array());
-            $customerAddressId = $request->getPost('billing_address_id', false);
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost('billing', array());
+            $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
             if (isset($data['email'])) {
                 $data['email'] = trim($data['email']);
             }
-            $method = $request->getPost('checkout_method', false);
+            $method = $this->getRequest()->getPost('checkout_method', false);
             if ($method) {
                 $newMethod = Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER;
                 $this->getCheckout()->getQuote()->setCheckoutMethod($newMethod);
@@ -74,11 +73,20 @@ extends Mage_Core_Helper_Abstract
 
             $usingCase = isset($data['use_for_shipping']) ? (int) $data['use_for_shipping'] : 0;
             if (!$usingCase) {
-                $data = $request->getPost('shipping', array());
+                $data = $this->getRequest()->getPost('shipping', array());
             }
-            $customerAddressId = $request->getPost('shipping_address_id', false);
+            $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
             $result['saveshipping'] = $this->getCheckout()->saveShipping($data, $customerAddressId);
         }
         return $result;
+    }
+
+    /**
+     * 
+     * @return Mage_Core_Controller_Request_Http
+     */
+    protected function getRequest()
+    {
+        return Mage::app()->getRequest();
     }
 }

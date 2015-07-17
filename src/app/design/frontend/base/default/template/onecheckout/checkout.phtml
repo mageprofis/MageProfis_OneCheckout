@@ -84,11 +84,11 @@
 <script type="text/javascript">
     checkout = new OneCheckout();
     checkout.ctime = "";
-    checkout.saveUrl = "<?php echo $this->getUrl("onecheckout/ajax/update") ?>";
-    checkout.failureUrl = "<?php echo $this->getUrl("checkout/cart") ?>";
-    checkout.completeUrl = "<?php echo $this->getUrl('checkout/onepage/saveOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey())) ?>";
-    checkout.successUrl = "<?php echo $this->getUrl('checkout/onepage/success') ?>";
-    checkout.preloginUrl = "<?php echo $this->getUrl("onecheckout/ajax/preLogin") ?>";
+    checkout.saveUrl = "<?php echo $this->getAjaxSaveUrl(); ?>";
+    checkout.failureUrl = "<?php echo $this->getFailureUrl(); ?>";
+    checkout.completeUrl = "<?php echo $this->getCompleteUrl(); ?>";
+    checkout.successUrl = "<?php echo $this->getSuccessUrl() ?>";
+    checkout.preloginUrl = "<?php echo $this->getPreLoginUrl(); ?>";
     checkout.imsg = "<?php echo Mage::helper("onecheckout")->__("L invalid") ?>";
     checkout.triggerShipping = <?php echo Mage::helper("onecheckout")->getTriggers("shipping_method") ?>;
     checkout.triggerPayment = <?php echo Mage::helper("onecheckout")->getTriggers("payment_method") ?>;
