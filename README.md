@@ -1,4 +1,4 @@
-MageProfis_SimpleAttributeOption
+MageProfis_OneCheckout
 ===================
 
 Info
