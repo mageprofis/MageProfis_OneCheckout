@@ -36,44 +36,6 @@
                 </rewrite>
             </checkout>
         </helpers>
-        <events>
-            <controller_action_predispatch_checkout_onepage_index>
-                <observers>
-                    <onecheckout>
-                        <type>singleton</type>
-                        <class>onecheckout/observer</class>
-                        <method>redirect</method>
-                    </onecheckout>
-                </observers>
-            </controller_action_predispatch_checkout_onepage_index>
-            <controller_action_predispatch_checkout_index_index>
-                <observers>
-                    <onecheckout_get_methods>
-                        <type>singleton</type>
-                        <class>onecheckout/observer</class>
-                        <method>redirect</method>
-                    </onecheckout_get_methods>
-                </observers>
-            </controller_action_predispatch_checkout_index_index>
-            <controller_action_layout_render_before_checkout_cart_index>
-                <observers>
-                    <onepage_checkout_methods>
-                        <type>singleton</type>
-                        <class>onecheckout/observer</class>
-                        <method>setCheckoutMethods</method>
-                    </onepage_checkout_methods>
-                </observers>
-            </controller_action_layout_render_before_checkout_cart_index>
-            <controller_action_predispatch_checkout_onepage_saveOrder>
-                <observers>
-                    <onepage_set_addresses>
-                        <type>singleton</type>
-                        <class>onecheckout/observer</class>
-                        <method>setAddresses</method>
-                    </onepage_set_addresses>
-                </observers>
-            </controller_action_predispatch_checkout_onepage_saveOrder>
-        </events>
     </global>
     <adminhtml>
         <translate>
@@ -134,6 +96,52 @@
                 </onecheckout>
             </updates>
         </layout>
+        <events>
+            <controller_action_predispatch_checkout_onepage_index>
+                <observers>
+                    <onecheckout>
+                        <type>singleton</type>
+                        <class>onecheckout/observer</class>
+                        <method>redirect</method>
+                    </onecheckout>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_index>
+            <controller_action_predispatch_checkout_index_index>
+                <observers>
+                    <onecheckout_get_methods>
+                        <type>singleton</type>
+                        <class>onecheckout/observer</class>
+                        <method>redirect</method>
+                    </onecheckout_get_methods>
+                </observers>
+            </controller_action_predispatch_checkout_index_index>
+            <controller_action_layout_render_before_checkout_cart_index>
+                <observers>
+                    <onepage_checkout_methods>
+                        <type>singleton</type>
+                        <class>onecheckout/observer</class>
+                        <method>setCheckoutMethods</method>
+                    </onepage_checkout_methods>
+                </observers>
+            </controller_action_layout_render_before_checkout_cart_index>
+            <controller_action_predispatch_checkout_onepage_saveOrder>
+                <observers>
+                    <onepage_set_addresses>
+                        <type>singleton</type>
+                        <class>onecheckout/observer</class>
+                        <method>setAddresses</method>
+                    </onepage_set_addresses>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_saveOrder>
+            <checkout_type_onepage_save_order>
+                <observers>
+                    <onecheckout>
+                        <class>onecheckout/observer</class>
+                        <method>addCommentToOrder</method>
+                    </onecheckout>
+                </observers>
+            </checkout_type_onepage_save_order>
+        </events>
     </frontend>
     <default>
         <onecheckout>
