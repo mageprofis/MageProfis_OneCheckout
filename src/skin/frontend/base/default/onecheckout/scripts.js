@@ -6,241 +6,241 @@ OneCheckout.prototype = {
         this.failureUrl = '';
         this.completeUrl = '';
         this.submitted = false;
-		this.loadWaiting = false;
-		this.agreements = null;
-		this.steps = null;
-		this.preloginUrl = '';
-		this.imsg = '';
-		this.ctime = 0;
-		this.triggerShipping = new Array();
-		this.triggerPayment = new Array();
-		this.triggerReview = new Array();
-		this.updateAreas = '';
+        this.loadWaiting = false;
+        this.agreements = null;
+        this.steps = null;
+        this.preloginUrl = '';
+        this.imsg = '';
+        this.ctime = 0;
+        this.triggerShipping = new Array();
+        this.triggerPayment = new Array();
+        this.triggerReview = new Array();
+        this.updateAreas = '';
     },
 
-	getSteps: function() {
-		this.steps = new Array(billing, shipping, shippingMethod, payment, review);	
-	},
+    getSteps: function() {
+        this.steps = new Array(billing, shipping, shippingMethod, payment, review);    
+    },
 
-	save: function() {
-		if (this.loadWaiting) {
-			return;
-		}	
-	
-		doSave = true;
-		this.getSteps();
-		for (i = 0; i < this.steps.length; i++) {
-			if (this.steps[i].beforeSave()) {
-			} else {
-				doSave = false;
-				break;
-			}
-		}
-		
-		if (doSave) {
-			that = this;
-			this.loadWaiting = true;
-			$("review-please-wait").show();
-			new Ajax.Request(this.completeUrl, {
-				method:'post',
-				parameters: this.collectParameters(),
-				onSuccess: function(transport){
-					that.evaluateResponse(transport);
-					that.loadWaiting = false;
-					$("review-please-wait").hide();
-				}
-			});			
-		}		
-	},
-	
-	triggered: function(trigger) {
-		toUpdate = new Array();
-		for (i = 0; i < this.triggerShipping.length; i++) {
-			if (trigger == this.triggerShipping[i]) {
-				toUpdate.push("shipping-method");	
-				break;
-			}
-		}
-		for (i = 0; i < this.triggerPayment.length; i++) {
-			if (trigger == this.triggerPayment[i]) {
-				toUpdate.push("payment-method");	
-				break;
-			}
-		}
-		for (i = 0; i < this.triggerReview.length; i++) {
-			if (trigger == this.triggerReview[i]) {
-				toUpdate.push("review");	
-				break;
-			}
-		}
-		return toUpdate;
-	},
+    save: function() {
+        if (this.loadWaiting) {
+            return;
+        }    
+    
+        doSave = true;
+        this.getSteps();
+        for (i = 0; i < this.steps.length; i++) {
+            if (this.steps[i].beforeSave()) {
+            } else {
+                doSave = false;
+                break;
+            }
+        }
+        
+        if (doSave) {
+            that = this;
+            this.loadWaiting = true;
+            $("review-please-wait").show();
+            new Ajax.Request(this.completeUrl, {
+                method:'post',
+                parameters: this.collectParameters(),
+                onSuccess: function(transport){
+                    that.evaluateResponse(transport);
+                    that.loadWaiting = false;
+                    $("review-please-wait").hide();
+                }
+            });            
+        }        
+    },
+    
+    triggered: function(trigger) {
+        toUpdate = new Array();
+        for (i = 0; i < this.triggerShipping.length; i++) {
+            if (trigger == this.triggerShipping[i]) {
+                toUpdate.push("shipping-method");    
+                break;
+            }
+        }
+        for (i = 0; i < this.triggerPayment.length; i++) {
+            if (trigger == this.triggerPayment[i]) {
+                toUpdate.push("payment-method");    
+                break;
+            }
+        }
+        for (i = 0; i < this.triggerReview.length; i++) {
+            if (trigger == this.triggerReview[i]) {
+                toUpdate.push("review");    
+                break;
+            }
+        }
+        return toUpdate;
+    },
 
-	update: function(trigger) {
-		if (this.loadWaiting) {
-			return;
-		}
-		cax = $$("#shippingmethod input.radio");
-		cbx = $$("#shippingmethod input.radio");
-		if (cax && cax.length > 1 && this.imsg.length + 10 < this.ctime) {
-			if (cbx && cbx.length > 1) {
-				alert(this.imsg);	
-				return;
-			}
-		}
-		this.updateAreas = this.triggered(trigger);
-		if (this.updateAreas.length == 0) {
-			return;	
-		}
-		
-		
-		that = this;
-		paras = this.collectParameters();
-		this.setLoading(true);
-		new Ajax.Request(this.saveUrl, {
-			method:'post',
-			parameters: paras,
-			onSuccess: function(transport){
-				that.setLoading(false);
-				that.evaluateResponse(transport);
-			}
-		});		
-	},
-	
-	setLoadWaiting: function(flag) {
-		// compability for ogone payment
-	},
-	
-	setLoading: function(flag) {
-		//areas = new Array("checkout-review-load", "checkout-shipping-method-load", "checkout-payment-method-load");
-		areas = this.updateAreas;
-		
-		for (i = 0; i < areas.length; i++) {
-			area = "checkout-" + areas[i] + "-load";
-			
-			if (flag) {
-				this.loadWaiting = true;
-				$(area).update("");
-				$(area).addClassName("opc-ajax-loader");
-			} else {
-				that.loadWaiting = false;
-				$(area).removeClassName("opc-ajax-loader");
-			}
-		}
-	},
-	
-	collectParameters: function() {
-		paras = {};			
-		if ($("login:guest") && $("login:guest").checked) {
-			paras = {checkout_method: 'register'};		
-		}
-		this.getSteps();
-		for (i = 0; i < this.steps.length; i++) {
-			if ($(this.steps[i].form)) {
-				Object.extend(paras, $(this.steps[i].form).serialize(true));
-			}
-		}
-		return paras;
-	},
+    update: function(trigger) {
+        if (this.loadWaiting) {
+            return;
+        }
+        cax = $$("#shippingmethod input.radio");
+        cbx = $$("#shippingmethod input.radio");
+        if (cax && cax.length > 1 && this.imsg.length + 10 < this.ctime) {
+            if (cbx && cbx.length > 1) {
+                alert(this.imsg);    
+                return;
+            }
+        }
+        this.updateAreas = this.triggered(trigger);
+        if (this.updateAreas.length == 0) {
+            return;    
+        }
+        
+        
+        that = this;
+        paras = this.collectParameters();
+        this.setLoading(true);
+        new Ajax.Request(this.saveUrl, {
+            method:'post',
+            parameters: paras,
+            onSuccess: function(transport){
+                that.setLoading(false);
+                that.evaluateResponse(transport);
+            }
+        });        
+    },
+    
+    setLoadWaiting: function(flag) {
+        // compability for ogone payment
+    },
+    
+    setLoading: function(flag) {
+        //areas = new Array("checkout-review-load", "checkout-shipping-method-load", "checkout-payment-method-load");
+        areas = this.updateAreas;
+        
+        for (i = 0; i < areas.length; i++) {
+            area = "checkout-" + areas[i] + "-load";
+            
+            if (flag) {
+                this.loadWaiting = true;
+                $(area).update("");
+                $(area).addClassName("opc-ajax-loader");
+            } else {
+                that.loadWaiting = false;
+                $(area).removeClassName("opc-ajax-loader");
+            }
+        }
+    },
+    
+    collectParameters: function() {
+        paras = {};            
+        if ($("login:guest") && $("login:guest").checked) {
+            paras = {checkout_method: 'register'};        
+        }
+        this.getSteps();
+        for (i = 0; i < this.steps.length; i++) {
+            if ($(this.steps[i].form)) {
+                Object.extend(paras, $(this.steps[i].form).serialize(true));
+            }
+        }
+        return paras;
+    },
 
     init: function() {
-		this.agreements = $('checkout-agreements');
-		this.setTriggers("default");
-		that = this;
+        this.agreements = $('checkout-agreements');
+        this.setTriggers("default");
+        that = this;
 
-		// show/hide shipping address
-		$("billing:use_for_shipping_no").observe("click", function() {
-			if (this.checked) {
-				$("shippingaddress").show();
-			} 
-		});
-		$("billing:use_for_shipping_yes").observe("click", function() {
-			if (this.checked) {
-				$("shippingaddress").hide();
-			} 
-		});
-		
-		// register checkbox
-		if ($("login:guest") && $("register-customer-password")) {
-			$("login:guest").observe("click", function() {
-				if (this.checked) {
-					$("register-customer-password").show();
-				} else {
-					$("register-customer-password").hide();
-				}
-			});
-			$("register-customer-password").hide();
-		}
-	
-		// login form
-		if ($("onecheckout-login")) {
-			$("onecheckout-login").observe("click", function() {
-				$(this).hide();
-				new Effect.SlideDown("onecheckout-login-form", {duration:0.5});		
+        // show/hide shipping address
+        $("billing:use_for_shipping_no").observe("click", function() {
+            if (this.checked) {
+                $("shippingaddress").show();
+            } 
+        });
+        $("billing:use_for_shipping_yes").observe("click", function() {
+            if (this.checked) {
+                $("shippingaddress").hide();
+            } 
+        });
+        
+        // register checkbox
+        if ($("login:guest") && $("register-customer-password")) {
+            $("login:guest").observe("click", function() {
+                if (this.checked) {
+                    $("register-customer-password").show();
+                } else {
+                    $("register-customer-password").hide();
+                }
+            });
+            $("register-customer-password").hide();
+        }
+    
+        // login form
+        if ($("onecheckout-login")) {
+            $("onecheckout-login").observe("click", function() {
+                $(this).hide();
+                new Effect.SlideDown("onecheckout-login-form", {duration:0.5});        
 
-				new Ajax.Request(that.preloginUrl, {
-					method:'post',
-				});	
-			});			
-			
-		}		
+                new Ajax.Request(that.preloginUrl, {
+                    method:'post',
+                });    
+            });            
+            
+        }        
     },
-	
-	setTriggers: function(source) {
-		that = this;
-		
-		if (source == "default" || source == "checkout-shipping-method-load") {
-			$$("#shippingmethod input.radio").each(function(elem) {
-				elem.observe("click", function() {
-					that.update("shipping_method");
-				});
-			});
-		}
-		if (source == "default" || source == "checkout-payment-method-load") {
-			$$("#paymentmethod input.radio").each(function(elem) {
-				elem.observe("click", function() {
-					that.update("payment_method");
-				});
-			});	
-		}
-		
-		if (source == "default" && $("billing:country_id")) {
-			$("billing:country_id").observe("change", function() {
-				that.update("country");
-			});
-			$("shipping:country_id").observe("change", function() {
-				that.update("country");
-			});
-		}
-		
-		if (source == "default" && $("billing:region_id")) {
-			$("billing:region_id").observe("change", function() {
-				that.update("region");
-			});
-			$("shipping:region_id").observe("change", function() {
-				that.update("region");
-			});
-		}
-		
-		if (source == "default" && $("billing:postcode")) {
-			$("billing:postcode").observe("blur", function() {
-				that.update("postcode");
-			});
-			$("shipping:postcode").observe("blur", function() {
-				that.update("postcode");
-			});
-		}
-		
-		if (source == "default" && $("billing:use_for_shipping_yes")) {
-			$("billing:use_for_shipping_yes").observe("click", function() {
-				// todo: there might be a better update cause
-				that.update("country");
-			});
-		}
-	},
+    
+    setTriggers: function(source) {
+        that = this;
+        
+        if (source == "default" || source == "checkout-shipping-method-load") {
+            $$("#shippingmethod input.radio").each(function(elem) {
+                elem.observe("click", function() {
+                    that.update("shipping_method");
+                });
+            });
+        }
+        if (source == "default" || source == "checkout-payment-method-load") {
+            $$("#paymentmethod input.radio").each(function(elem) {
+                elem.observe("click", function() {
+                    that.update("payment_method");
+                });
+            });    
+        }
+        
+        if (source == "default" && $("billing:country_id")) {
+            $("billing:country_id").observe("change", function() {
+                that.update("country");
+            });
+            $("shipping:country_id").observe("change", function() {
+                that.update("country");
+            });
+        }
+        
+        if (source == "default" && $("billing:region_id")) {
+            $("billing:region_id").observe("change", function() {
+                that.update("region");
+            });
+            $("shipping:region_id").observe("change", function() {
+                that.update("region");
+            });
+        }
+        
+        if (source == "default" && $("billing:postcode")) {
+            $("billing:postcode").observe("blur", function() {
+                that.update("postcode");
+            });
+            $("shipping:postcode").observe("blur", function() {
+                that.update("postcode");
+            });
+        }
+        
+        if (source == "default" && $("billing:use_for_shipping_yes")) {
+            $("billing:use_for_shipping_yes").observe("click", function() {
+                // todo: there might be a better update cause
+                that.update("country");
+            });
+        }
+    },
 
     evaluateResponse: function(transport){
-        if (transport && transport.responseText) {		
+        if (transport && transport.responseText) {        
             try{
                 response = eval('(' + transport.responseText + ')');
             } catch (e) {
@@ -264,29 +264,29 @@ OneCheckout.prototype = {
                 }
             }
 
-			if (response.error) {
-				if (response.fields) {
-					var fields = response.fields.split(',');
-					for (var i=0;i<fields.length;i++) {
-						var field = null;
-						if (field = $(fields[i])) {
-							Validation.ajaxError(field, response.error);
-						}
-					}
-					return;
-				}
-				if (typeof(response.error) != "boolean") {
-					alert(response.error);
-				}
-			}
+            if (response.error) {
+                if (response.fields) {
+                    var fields = response.fields.split(',');
+                    for (var i=0;i<fields.length;i++) {
+                        var field = null;
+                        if (field = $(fields[i])) {
+                            Validation.ajaxError(field, response.error);
+                        }
+                    }
+                    return;
+                }
+                if (typeof(response.error) != "boolean") {
+                    alert(response.error);
+                }
+            }
 
             if (response.updates) {
-				for (param in response.updates) {
-	                $(param).update(response.updates[param]);
-					this.setTriggers(param);
-				}
+                for (param in response.updates) {
+                    $(param).update(response.updates[param]);
+                    this.setTriggers(param);
+                }
             }
-			
+            
         }
     },
 };
@@ -367,7 +367,7 @@ Billing.prototype = {
 
         var validator = new Validation(this.form);
         if (validator.validate()) {
-			return true;           
+            return true;           
         }
     },
 
@@ -487,7 +487,7 @@ Shipping.prototype = {
         if (validator.validate()) {
             return true;
         }
-		return false;
+        return false;
     },
 
     resetLoadWaiting: function(transport){
@@ -534,7 +534,7 @@ ShippingMethod.prototype = {
         if (this.validate()) {
             return true;
         }
-		return false;
+        return false;
     },
 
     resetLoadWaiting: function(transport){
@@ -551,7 +551,7 @@ Payment.prototype = {
     afterValidateFunc:$H({}),
     initialize: function(form, saveUrl){
         this.form = form;        
-		if ($(this.form)) {
+        if ($(this.form)) {
             $(this.form).observe('submit', function(event){this.beforeSave();Event.stop(event);}.bind(this));
         }
         this.saveUrl = saveUrl;
@@ -692,18 +692,18 @@ Payment.prototype = {
         if (checkout.loadWaiting!=false) return;
         var validator = new Validation(this.form);
         if (this.validate() && validator.validate()) {
-			return true;
+            return true;
         }
-		return false;
+        return false;
     },
 
     resetLoadWaiting: function(){
         checkout.setLoadWaiting(false);
     },
-	
-	save: function(){
-		// only for compatibility to ogone
-	},
+    
+    save: function(){
+        // only for compatibility to ogone
+    },
 
     initWhatIsCvvListeners: function(){
         $$('.cvv-what-is-this').each(function(element){
@@ -716,7 +716,7 @@ var Review = Class.create();
 Review.prototype = {
     initialize: function(agreementsForm){
         this.form = agreementsForm;
-		if ($(this.form)) {
+        if ($(this.form)) {
             $(this.form).observe('submit', function(event){this.beforeSave();Event.stop(event);}.bind(this));
         }
     },
@@ -725,14 +725,14 @@ Review.prototype = {
         if (checkout.loadWaiting!=false) return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
-			return true;
+            return true;
         }
-		return false;
+        return false;
     },
 
     save: function(){
-		payment.save(); // ogone compatiblity
-       	checkout.save();
+        payment.save(); // ogone compatiblity
+           checkout.save();
     },
 
     resetLoadWaiting: function(transport){
