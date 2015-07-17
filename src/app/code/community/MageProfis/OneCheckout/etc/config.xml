@@ -137,6 +137,10 @@
     </frontend>
     <default>
         <onecheckout>
+            <general>
+                <active>0</active>
+                <showcarteditionbutton>0</showcarteditionbutton>
+            </general>
             <refresh>
                 <shipping_method>country,shipping_method,payment_method</shipping_method>
                 <payment_method>country,shipping_method,payment_method</payment_method>

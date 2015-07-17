@@ -19,4 +19,14 @@ extends Mage_Core_Block_Template
     {
         return Mage::getSingleton('customer/session')->isLoggedIn();
     }
+
+    /**
+     * 
+     * 
+     * @return bool
+     */
+    public function showEditCartButton()
+    {
+        return Mage::getStoreConfigFlag('onecheckout/general/showcarteditionbutton');
+    }
 }

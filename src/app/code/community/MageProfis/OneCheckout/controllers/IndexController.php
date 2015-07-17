@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @category   MageProfis
@@ -64,10 +63,10 @@ extends Mage_Checkout_Controller_Action
     {
         $country = $address->getCountryId();
         if (empty($country)) {
-            $defaultCountry = Mage::getStoreConfig("general/country/default");
+            $defaultCountry = Mage::getStoreConfig('general/country/default');
             $address
                     ->setCountryId($defaultCountry)
-                    ->setCity("-")
+                    ->setCity('-')
                     ->setRegionId(1)
                     ->setPostcode('-')
                     ->setStreet(array('-'))
