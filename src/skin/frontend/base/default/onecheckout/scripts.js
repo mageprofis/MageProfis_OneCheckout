@@ -1,7 +1,7 @@
 // OneCheckout
 var OneCheckout = Class.create();
 OneCheckout.prototype = {
-    initialize: function() {
+    initialize: function () {
         this.saveUrl = '';
         this.failureUrl = '';
         this.completeUrl = '';
@@ -17,16 +17,14 @@ OneCheckout.prototype = {
         this.triggerReview = new Array();
         this.updateAreas = '';
     },
-
-    getSteps: function() {
-        this.steps = new Array(billing, shipping, shippingMethod, payment, review);    
+    getSteps: function () {
+        this.steps = new Array(billing, shipping, shippingMethod, payment, review);
     },
-
-    save: function() {
+    save: function () {
         if (this.loadWaiting) {
             return;
-        }    
-    
+        }
+
         doSave = true;
         this.getSteps();
         for (i = 0; i < this.steps.length; i++) {
@@ -36,47 +34,45 @@ OneCheckout.prototype = {
                 break;
             }
         }
-        
+
         if (doSave) {
             that = this;
             this.loadWaiting = true;
             $("review-please-wait").show();
             new Ajax.Request(this.completeUrl, {
-                method:'post',
+                method: 'post',
                 parameters: this.collectParameters(),
-                onSuccess: function(transport){
+                onSuccess: function (transport) {
                     that.evaluateResponse(transport);
                     that.loadWaiting = false;
                     $("review-please-wait").hide();
                 }
-            });            
-        }        
+            });
+        }
     },
-    
-    triggered: function(trigger) {
+    triggered: function (trigger) {
         toUpdate = new Array();
         for (i = 0; i < this.triggerShipping.length; i++) {
             if (trigger == this.triggerShipping[i]) {
-                toUpdate.push("shipping-method");    
+                toUpdate.push("shipping-method");
                 break;
             }
         }
         for (i = 0; i < this.triggerPayment.length; i++) {
             if (trigger == this.triggerPayment[i]) {
-                toUpdate.push("payment-method");    
+                toUpdate.push("payment-method");
                 break;
             }
         }
         for (i = 0; i < this.triggerReview.length; i++) {
             if (trigger == this.triggerReview[i]) {
-                toUpdate.push("review");    
+                toUpdate.push("review");
                 break;
             }
         }
         return toUpdate;
     },
-
-    update: function(trigger) {
+    update: function (trigger) {
         if (this.loadWaiting) {
             return;
         }
@@ -84,40 +80,38 @@ OneCheckout.prototype = {
         cbx = $$("#shippingmethod input.radio");
         if (cax && cax.length > 1 && this.imsg.length + 10 < this.ctime) {
             if (cbx && cbx.length > 1) {
-                alert(this.imsg);    
+                alert(this.imsg);
                 return;
             }
         }
         this.updateAreas = this.triggered(trigger);
         if (this.updateAreas.length == 0) {
-            return;    
+            return;
         }
-        
-        
+
+
         that = this;
         paras = this.collectParameters();
         this.setLoading(true);
         new Ajax.Request(this.saveUrl, {
-            method:'post',
+            method: 'post',
             parameters: paras,
-            onSuccess: function(transport){
+            onSuccess: function (transport) {
                 that.setLoading(false);
                 that.evaluateResponse(transport);
             }
-        });        
+        });
     },
-    
-    setLoadWaiting: function(flag) {
+    setLoadWaiting: function (flag) {
         // compability for ogone payment
     },
-    
-    setLoading: function(flag) {
+    setLoading: function (flag) {
         //areas = new Array("checkout-review-load", "checkout-shipping-method-load", "checkout-payment-method-load");
         areas = this.updateAreas;
-        
+
         for (i = 0; i < areas.length; i++) {
             area = "checkout-" + areas[i] + "-load";
-            
+
             if (flag) {
                 this.loadWaiting = true;
                 $(area).update("");
@@ -128,11 +122,10 @@ OneCheckout.prototype = {
             }
         }
     },
-    
-    collectParameters: function() {
-        paras = {};            
+    collectParameters: function () {
+        paras = {};
         if ($("login:guest") && $("login:guest").checked) {
-            paras = {checkout_method: 'register'};        
+            paras = {checkout_method: 'register'};
         }
         this.getSteps();
         for (i = 0; i < this.steps.length; i++) {
@@ -142,27 +135,26 @@ OneCheckout.prototype = {
         }
         return paras;
     },
-
-    init: function() {
+    init: function () {
         this.agreements = $('checkout-agreements');
         this.setTriggers("default");
         that = this;
 
         // show/hide shipping address
-        $("billing:use_for_shipping_no").observe("click", function() {
+        $("billing:use_for_shipping_no").observe("click", function () {
             if (this.checked) {
                 $("shippingaddress").show();
-            } 
+            }
         });
-        $("billing:use_for_shipping_yes").observe("click", function() {
+        $("billing:use_for_shipping_yes").observe("click", function () {
             if (this.checked) {
                 $("shippingaddress").hide();
-            } 
+            }
         });
-        
+
         // register checkbox
         if ($("login:guest") && $("register-customer-password")) {
-            $("login:guest").observe("click", function() {
+            $("login:guest").observe("click", function () {
                 if (this.checked) {
                     $("register-customer-password").show();
                 } else {
@@ -171,77 +163,75 @@ OneCheckout.prototype = {
             });
             $("register-customer-password").hide();
         }
-    
+
         // login form
         if ($("onecheckout-login")) {
-            $("onecheckout-login").observe("click", function() {
+            $("onecheckout-login").observe("click", function () {
                 $(this).hide();
-                new Effect.SlideDown("onecheckout-login-form", {duration:0.5});        
+                new Effect.SlideDown("onecheckout-login-form", {duration: 0.5});
 
                 new Ajax.Request(that.preloginUrl, {
-                    method:'post',
-                });    
-            });            
-            
-        }        
+                    method: 'post',
+                });
+            });
+
+        }
     },
-    
-    setTriggers: function(source) {
+    setTriggers: function (source) {
         that = this;
-        
+
         if (source == "default" || source == "checkout-shipping-method-load") {
-            $$("#shippingmethod input.radio").each(function(elem) {
-                elem.observe("click", function() {
+            $$("#shippingmethod input.radio").each(function (elem) {
+                elem.observe("click", function () {
                     that.update("shipping_method");
                 });
             });
         }
         if (source == "default" || source == "checkout-payment-method-load") {
-            $$("#paymentmethod input.radio").each(function(elem) {
-                elem.observe("click", function() {
+            $$("#paymentmethod input.radio").each(function (elem) {
+                elem.observe("click", function () {
                     that.update("payment_method");
                 });
-            });    
+            });
         }
-        
+
         if (source == "default" && $("billing:country_id")) {
-            $("billing:country_id").observe("change", function() {
+            $("billing:country_id").observe("change", function () {
                 that.update("country");
             });
-            $("shipping:country_id").observe("change", function() {
+            $("shipping:country_id").observe("change", function () {
                 that.update("country");
             });
         }
-        
+
         if (source == "default" && $("billing:region_id")) {
-            $("billing:region_id").observe("change", function() {
+            $("billing:region_id").observe("change", function () {
                 that.update("region");
             });
-            $("shipping:region_id").observe("change", function() {
+            $("shipping:region_id").observe("change", function () {
                 that.update("region");
             });
         }
-        
+
         if (source == "default" && $("billing:postcode")) {
-            $("billing:postcode").observe("blur", function() {
+            $("billing:postcode").observe("blur", function () {
                 that.update("postcode");
             });
-            $("shipping:postcode").observe("blur", function() {
+            $("shipping:postcode").observe("blur", function () {
                 that.update("postcode");
             });
         }
-        
+
         if (source == "default" && $("billing:use_for_shipping_yes")) {
-            $("billing:use_for_shipping_yes").observe("click", function() {
+            $("billing:use_for_shipping_yes").observe("click", function () {
                 // todo: there might be a better update cause
                 that.update("country");
             });
         }
     },
-
-    evaluateResponse: function(transport){
-        if (transport && transport.responseText) {        
-            try{
+    evaluateResponse: function (transport) {
+        if (transport && transport.responseText) {
+            try {
                 response = eval('(' + transport.responseText + ')');
             } catch (e) {
                 response = {};
@@ -252,11 +242,11 @@ OneCheckout.prototype = {
                 return;
             }
             if (response.success) {
-                this.isSuccess = true; 
-                window.location=this.successUrl;
-            } else{
+                this.isSuccess = true;
+                window.location = this.successUrl;
+            } else {
                 var msg = response.error_messages;
-                if (typeof(msg)=='object') {
+                if (typeof (msg) == 'object') {
                     msg = msg.join("\n");
                 }
                 if (msg) {
@@ -267,7 +257,7 @@ OneCheckout.prototype = {
             if (response.error) {
                 if (response.fields) {
                     var fields = response.fields.split(',');
-                    for (var i=0;i<fields.length;i++) {
+                    for (var i = 0; i < fields.length; i++) {
                         var field = null;
                         if (field = $(fields[i])) {
                             Validation.ajaxError(field, response.error);
@@ -275,7 +265,7 @@ OneCheckout.prototype = {
                     }
                     return;
                 }
-                if (typeof(response.error) != "boolean") {
+                if (typeof (response.error) != "boolean") {
                     alert(response.error);
                 }
             }
@@ -286,7 +276,7 @@ OneCheckout.prototype = {
                     this.setTriggers(param);
                 }
             }
-            
+
         }
     },
 };
@@ -294,30 +284,31 @@ OneCheckout.prototype = {
 // billing
 var Billing = Class.create();
 Billing.prototype = {
-    initialize: function(form, addressUrl, saveUrl){
+    initialize: function (form, addressUrl, saveUrl) {
         this.form = form;
         if ($(this.form)) {
-            $(this.form).observe('submit', function(event){this.beforeSave();Event.stop(event);}.bind(this));
+            $(this.form).observe('submit', function (event) {
+                this.beforeSave();
+                Event.stop(event);
+            }.bind(this));
         }
         this.addressUrl = addressUrl;
         this.saveUrl = saveUrl;
         this.onAddressLoad = this.fillForm.bindAsEventListener(this);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
-
-    setAddress: function(addressId){
+    setAddress: function (addressId) {
         if (addressId) {
             request = new Ajax.Request(
-                this.addressUrl+addressId,
-                {method:'get', onSuccess: this.onAddressLoad, onFailure: checkout.ajaxFailure.bind(checkout)}
+                    this.addressUrl + addressId,
+                    {method: 'get', onSuccess: this.onAddressLoad, onFailure: checkout.ajaxFailure.bind(checkout)}
             );
         }
         else {
             this.fillForm(false);
         }
     },
-
-    newAddress: function(isNew){
+    newAddress: function (isNew) {
         if (isNew) {
             this.resetSelectedAddress();
             Element.show('billing-new-address-form');
@@ -325,25 +316,23 @@ Billing.prototype = {
             Element.hide('billing-new-address-form');
         }
     },
-
-    resetSelectedAddress: function(){
+    resetSelectedAddress: function () {
         var selectElement = $('billing-address-select')
         if (selectElement) {
-            selectElement.value='';
+            selectElement.value = '';
         }
     },
-
-    fillForm: function(transport){
+    fillForm: function (transport) {
         var elementValues = {};
-        if (transport && transport.responseText){
-            try{
+        if (transport && transport.responseText) {
+            try {
                 elementValues = eval('(' + transport.responseText + ')');
             }
             catch (e) {
                 elementValues = {};
             }
         }
-        else{
+        else {
             this.resetSelectedAddress();
         }
         arrElements = Form.getElements(this.form);
@@ -351,27 +340,25 @@ Billing.prototype = {
             if (arrElements[elemIndex].id) {
                 var fieldName = arrElements[elemIndex].id.replace(/^billing:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
-                if (fieldName == 'country_id' && billingForm){
+                if (fieldName == 'country_id' && billingForm) {
                     billingForm.elementChildLoad(arrElements[elemIndex]);
                 }
             }
         }
     },
-
-    setUseForShipping: function(flag) {
+    setUseForShipping: function (flag) {
         $('shipping:same_as_billing').checked = flag;
     },
-
-    beforeSave: function(){
-        if (checkout.loadWaiting!=false) return;
+    beforeSave: function () {
+        if (checkout.loadWaiting != false)
+            return;
 
         var validator = new Validation(this.form);
         if (validator.validate()) {
-            return true;           
+            return true;
         }
     },
-
-    resetLoadWaiting: function(transport){
+    resetLoadWaiting: function (transport) {
         checkout.setLoadWaiting(false);
     },
 }
@@ -379,10 +366,13 @@ Billing.prototype = {
 // shipping
 var Shipping = Class.create();
 Shipping.prototype = {
-    initialize: function(form, addressUrl, saveUrl, methodsUrl){
+    initialize: function (form, addressUrl, saveUrl, methodsUrl) {
         this.form = form;
         if ($(this.form)) {
-            $(this.form).observe('submit', function(event){this.beforeSave();Event.stop(event);}.bind(this));
+            $(this.form).observe('submit', function (event) {
+                this.beforeSave();
+                Event.stop(event);
+            }.bind(this));
         }
         this.addressUrl = addressUrl;
         this.saveUrl = saveUrl;
@@ -390,20 +380,18 @@ Shipping.prototype = {
         this.onAddressLoad = this.fillForm.bindAsEventListener(this);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
-
-    setAddress: function(addressId){
+    setAddress: function (addressId) {
         if (addressId) {
             request = new Ajax.Request(
-                this.addressUrl+addressId,
-                {method:'get', onSuccess: this.onAddressLoad, onFailure: checkout.ajaxFailure.bind(checkout)}
+                    this.addressUrl + addressId,
+                    {method: 'get', onSuccess: this.onAddressLoad, onFailure: checkout.ajaxFailure.bind(checkout)}
             );
         }
         else {
             this.fillForm(false);
         }
     },
-
-    newAddress: function(isNew){
+    newAddress: function (isNew) {
         if (isNew) {
             this.resetSelectedAddress();
             Element.show('shipping-new-address-form');
@@ -412,25 +400,23 @@ Shipping.prototype = {
         }
         shipping.setSameAsBilling(false);
     },
-
-    resetSelectedAddress: function(){
+    resetSelectedAddress: function () {
         var selectElement = $('shipping-address-select')
         if (selectElement) {
-            selectElement.value='';
+            selectElement.value = '';
         }
     },
-
-    fillForm: function(transport){
+    fillForm: function (transport) {
         var elementValues = {};
-        if (transport && transport.responseText){
-            try{
+        if (transport && transport.responseText) {
+            try {
                 elementValues = eval('(' + transport.responseText + ')');
             }
             catch (e) {
                 elementValues = {};
             }
         }
-        else{
+        else {
             this.resetSelectedAddress();
         }
         arrElements = Form.getElements(this.form);
@@ -438,14 +424,13 @@ Shipping.prototype = {
             if (arrElements[elemIndex].id) {
                 var fieldName = arrElements[elemIndex].id.replace(/^shipping:/, '');
                 arrElements[elemIndex].value = elementValues[fieldName] ? elementValues[fieldName] : '';
-                if (fieldName == 'country_id' && shippingForm){
+                if (fieldName == 'country_id' && shippingForm) {
                     shippingForm.elementChildLoad(arrElements[elemIndex]);
                 }
             }
         }
     },
-
-    setSameAsBilling: function(flag) {
+    setSameAsBilling: function (flag) {
         $('shipping:same_as_billing').checked = flag;
 // #5599. Also it hangs up, if the flag is not false
 //        $('billing:use_for_shipping_yes').checked = flag;
@@ -453,7 +438,6 @@ Shipping.prototype = {
             this.syncWithBilling();
         }
     },
-
     syncWithBilling: function () {
         $('billing-address-select') && this.newAddress(!$('billing-address-select').value);
         $('shipping:same_as_billing').checked = true;
@@ -462,7 +446,7 @@ Shipping.prototype = {
             for (var elemIndex in arrElements) {
                 if (arrElements[elemIndex].id) {
                     var sourceField = $(arrElements[elemIndex].id.replace(/^shipping:/, 'billing:'));
-                    if (sourceField){
+                    if (sourceField) {
                         arrElements[elemIndex].value = sourceField.value;
                     }
                 }
@@ -476,21 +460,19 @@ Shipping.prototype = {
             $('shipping-address-select').value = $('billing-address-select').value;
         }
     },
-
-    setRegionValue: function(){
+    setRegionValue: function () {
         $('shipping:region').value = $('billing:region').value;
     },
-
-    beforeSave: function(){
-        if (checkout.loadWaiting!=false) return;
+    beforeSave: function () {
+        if (checkout.loadWaiting != false)
+            return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
             return true;
         }
         return false;
     },
-
-    resetLoadWaiting: function(transport){
+    resetLoadWaiting: function (transport) {
         checkout.setLoadWaiting(false);
     },
 }
@@ -498,28 +480,30 @@ Shipping.prototype = {
 // shipping method
 var ShippingMethod = Class.create();
 ShippingMethod.prototype = {
-    initialize: function(form, saveUrl){
+    initialize: function (form, saveUrl) {
         this.form = form;
         if ($(this.form)) {
-            $(this.form).observe('submit', function(event){this.beforeSave();Event.stop(event);}.bind(this));
+            $(this.form).observe('submit', function (event) {
+                this.beforeSave();
+                Event.stop(event);
+            }.bind(this));
         }
         this.saveUrl = saveUrl;
         this.validator = new Validation(this.form);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
-
-    validate: function() {
+    validate: function () {
         var methods = document.getElementsByName('shipping_method');
-        if (methods.length==0) {
+        if (methods.length == 0) {
             alert(Translator.translate('Your order cannot be completed at this time as there is no shipping methods available for it. Please make necessary changes in your shipping address.'));
             return false;
         }
 
-        if(!this.validator.validate()) {
+        if (!this.validator.validate()) {
             return false;
         }
 
-        for (var i=0; i<methods.length; i++) {
+        for (var i = 0; i < methods.length; i++) {
             if (methods[i].checked) {
                 return true;
             }
@@ -527,17 +511,16 @@ ShippingMethod.prototype = {
         alert(Translator.translate('Please specify shipping method.'));
         return false;
     },
+    beforeSave: function () {
 
-    beforeSave: function(){
-
-        if (checkout.loadWaiting!=false) return;
+        if (checkout.loadWaiting != false)
+            return;
         if (this.validate()) {
             return true;
         }
         return false;
     },
-
-    resetLoadWaiting: function(transport){
+    resetLoadWaiting: function (transport) {
         checkout.setLoadWaiting(false);
     },
 }
@@ -545,96 +528,92 @@ ShippingMethod.prototype = {
 // payment
 var Payment = Class.create();
 Payment.prototype = {
-    beforeInitFunc:$H({}),
-    afterInitFunc:$H({}),
-    beforeValidateFunc:$H({}),
-    afterValidateFunc:$H({}),
-    initialize: function(form, saveUrl){
-        this.form = form;        
+    beforeInitFunc: $H({}),
+    afterInitFunc: $H({}),
+    beforeValidateFunc: $H({}),
+    afterValidateFunc: $H({}),
+    initialize: function (form, saveUrl) {
+        this.form = form;
         if ($(this.form)) {
-            $(this.form).observe('submit', function(event){this.beforeSave();Event.stop(event);}.bind(this));
+            $(this.form).observe('submit', function (event) {
+                this.beforeSave();
+                Event.stop(event);
+            }.bind(this));
         }
         this.saveUrl = saveUrl;
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
-
-    addBeforeInitFunction : function(code, func) {
+    addBeforeInitFunction: function (code, func) {
         this.beforeInitFunc.set(code, func);
     },
-
-    beforeInit : function() {
-        (this.beforeInitFunc).each(function(init){
-           (init.value)();;
+    beforeInit: function () {
+        (this.beforeInitFunc).each(function (init) {
+            (init.value)();
+            ;
         });
     },
-
-    init : function () {
+    init: function () {
         this.beforeInit();
         var elements = Form.getElements(this.form);
         var method = null;
-        for (var i=0; i<elements.length; i++) {
-            if (elements[i].name=='payment[method]') {
+        for (var i = 0; i < elements.length; i++) {
+            if (elements[i].name == 'payment[method]') {
                 if (elements[i].checked) {
                     method = elements[i].value;
                 }
             } else {
                 elements[i].disabled = true;
             }
-            elements[i].setAttribute('autocomplete','off');
+            elements[i].setAttribute('autocomplete', 'off');
         }
-        if (method) this.switchMethod(method);
+        if (method)
+            this.switchMethod(method);
         this.afterInit();
     },
-
-    addAfterInitFunction : function(code, func) {
+    addAfterInitFunction: function (code, func) {
         this.afterInitFunc.set(code, func);
     },
-
-    afterInit : function() {
-        (this.afterInitFunc).each(function(init){
+    afterInit: function () {
+        (this.afterInitFunc).each(function (init) {
             (init.value)();
         });
     },
-
-    switchMethod: function(method){
-        if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
+    switchMethod: function (method) {
+        if (this.currentMethod && $('payment_form_' + this.currentMethod)) {
             this.changeVisible(this.currentMethod, true);
-            $('payment_form_'+this.currentMethod).fire('payment-method:switched-off', {method_code : this.currentMethod});
+            $('payment_form_' + this.currentMethod).fire('payment-method:switched-off', {method_code: this.currentMethod});
         }
-        if ($('payment_form_'+method)){
+        if ($('payment_form_' + method)) {
             this.changeVisible(method, false);
-            $('payment_form_'+method).fire('payment-method:switched', {method_code : method});
+            $('payment_form_' + method).fire('payment-method:switched', {method_code: method});
         } else {
             //Event fix for payment methods without form like "Check / Money order"
-            document.body.fire('payment-method:switched', {method_code : method});
+            document.body.fire('payment-method:switched', {method_code: method});
         }
         if (method) {
             this.lastUsedMethod = method;
         }
         this.currentMethod = method;
     },
-
-    changeVisible: function(method, mode) {
+    changeVisible: function (method, mode) {
         var block = 'payment_form_' + method;
-        [block + '_before', block, block + '_after'].each(function(el) {
+        [block + '_before', block, block + '_after'].each(function (el) {
             element = $(el);
             if (element) {
                 element.style.display = (mode) ? 'none' : '';
-                element.select('input', 'select', 'textarea', 'button').each(function(field) {
+                element.select('input', 'select', 'textarea', 'button').each(function (field) {
                     field.disabled = mode;
                 });
             }
         });
     },
-
-    addBeforeValidateFunction : function(code, func) {
+    addBeforeValidateFunction: function (code, func) {
         this.beforeValidateFunc.set(code, func);
     },
-
-    beforeValidate : function() {
+    beforeValidate: function () {
         var validateResult = true;
         var hasValidation = false;
-        (this.beforeValidateFunc).each(function(validate){
+        (this.beforeValidateFunc).each(function (validate) {
             hasValidation = true;
             if ((validate.value)() == false) {
                 validateResult = false;
@@ -645,18 +624,17 @@ Payment.prototype = {
         }
         return validateResult;
     },
-
-    validate: function() {
+    validate: function () {
         var result = this.beforeValidate();
         if (result) {
             return true;
         }
         var methods = document.getElementsByName('payment[method]');
-        if (methods.length==0) {
+        if (methods.length == 0) {
             alert(Translator.translate('Your order cannot be completed at this time as there is no payment methods available for it.'));
             return false;
         }
-        for (var i=0; i<methods.length; i++) {
+        for (var i = 0; i < methods.length; i++) {
             if (methods[i].checked) {
                 return true;
             }
@@ -668,15 +646,13 @@ Payment.prototype = {
         alert(Translator.translate('Please specify payment method.'));
         return false;
     },
-
-    addAfterValidateFunction : function(code, func) {
+    addAfterValidateFunction: function (code, func) {
         this.afterValidateFunc.set(code, func);
     },
-
-    afterValidate : function() {
+    afterValidate: function () {
         var validateResult = true;
         var hasValidation = false;
-        (this.afterValidateFunc).each(function(validate){
+        (this.afterValidateFunc).each(function (validate) {
             hasValidation = true;
             if ((validate.value)() == false) {
                 validateResult = false;
@@ -687,26 +663,23 @@ Payment.prototype = {
         }
         return validateResult;
     },
-
-    beforeSave: function(){
-        if (checkout.loadWaiting!=false) return;
+    beforeSave: function () {
+        if (checkout.loadWaiting != false)
+            return;
         var validator = new Validation(this.form);
         if (this.validate() && validator.validate()) {
             return true;
         }
         return false;
     },
-
-    resetLoadWaiting: function(){
+    resetLoadWaiting: function () {
         checkout.setLoadWaiting(false);
     },
-    
-    save: function(){
+    save: function () {
         // only for compatibility to ogone
     },
-
-    initWhatIsCvvListeners: function(){
-        $$('.cvv-what-is-this').each(function(element){
+    initWhatIsCvvListeners: function () {
+        $$('.cvv-what-is-this').each(function (element) {
             Event.observe(element, 'click', toggleToolTip);
         });
     }
@@ -714,32 +687,34 @@ Payment.prototype = {
 
 var Review = Class.create();
 Review.prototype = {
-    initialize: function(agreementsForm){
+    initialize: function (agreementsForm) {
         this.form = agreementsForm;
         if ($(this.form)) {
-            $(this.form).observe('submit', function(event){this.beforeSave();Event.stop(event);}.bind(this));
+            $(this.form).observe('submit', function (event) {
+                this.beforeSave();
+                Event.stop(event);
+            }.bind(this));
         }
     },
-
-    beforeSave: function(){
-        if (checkout.loadWaiting!=false) return;
+    beforeSave: function () {
+        if (checkout.loadWaiting != false)
+            return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
             return true;
         }
         return false;
     },
-
-    save: function(){
+    save: function () {
         payment.save(); // ogone compatiblity
-           checkout.save();
+        checkout.save();
     },
-
-    resetLoadWaiting: function(transport){
+    resetLoadWaiting: function (transport) {
         checkout.setLoadWaiting(false, this.isSuccess);
     },
 }
 
 // only for compatibility to ogone
 accordion = new Object();
-accordion.openSection = function() {}
+accordion.openSection = function () {
+}

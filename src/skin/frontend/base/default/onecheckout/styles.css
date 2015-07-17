@@ -1,30 +1,30 @@
 @charset "utf-8";
 /* CSS Document */
 .onecheckout-index-index .opc-ajax-loader {
-	background: url("opc-ajax-loader.gif") center center no-repeat transparent;
-	height: 100px;
+    background: url("opc-ajax-loader.gif") center center no-repeat transparent;
+    height: 100px;
 }	
 
 .onecheckout-index-index .checkout-agreements .agreement-content {
-	height: 70px;
+    height: 70px;
 }
 .onecheckout-index-index #review {
-	width: 300px;
-	float: right;
+    width: 300px;
+    float: right;
 }
 
 /* form elements */
 .onecheckout-index-index .col-1 .form-list .field {
-	width: 130px;
+    width: 130px;
 }
 .onecheckout-index-index .col-1 .form-list .input-box {
-	width: 122px;
+    width: 122px;
 }
 .onecheckout-index-index .col-1 .form-list input.input-text {
-	width: 120px;
+    width: 120px;
 }
 .onecheckout-index-index .col-1 .form-list select {
-	width: 125px;
+    width: 125px;
 }
 .onecheckout-index-index .col-1 .form-list li.wide input.input-text {
     width: 250px;
@@ -32,37 +32,37 @@
 
 /* default template artefacts */
 .onecheckout-index-index .buttons-set {
-	display: none;
+    display: none;
 }
 .onecheckout-index-index #review-buttons-container.buttons-set {
-	display: block;
+    display: block;
 }
 
 .onecheckout-index-index #shippingaddress .control {
-	display: none;
+    display: none;
 }
 
 /* make me look nicer */
 .onecheckout-index-index .sub-title {
-	padding-top: 0;
-	padding-bottom: 10px;
-	font-size: 12px;
-	border-bottom: 1px solid #E4E4E4;
-	margin-bottom: 10px;
+    padding-top: 0;
+    padding-bottom: 10px;
+    font-size: 12px;
+    border-bottom: 1px solid #E4E4E4;
+    margin-bottom: 10px;
 }
 .onecheckout-index-index #paymentmethod {
-	margin-top: 20px;
+    margin-top: 20px;
 }
 .onecheckout-index-index .col-2 h2 {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .onecheckout-index-index #onecheckout-login-form {
-	display: block;
-	margin-top: 10px;
-	padding-bottom: 20px;
+    display: block;
+    margin-top: 10px;
+    padding-bottom: 20px;
 }
 .onecheckout-index-index #onecheckout-login-form .block {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .onecheckout-index-index  .sp-methods dt {
     margin-top: 10px;
@@ -70,31 +70,31 @@
 
 /* agreements */
 .onecheckout-index-index .checkout-agreements li {
-	margin: 0;
+    margin: 0;
 }
 .onecheckout-index-index .checkout-agreements .agree {
-	padding: 0 0 10px 0;
+    padding: 0 0 10px 0;
 }
 .onecheckout-index-index .checkout-agreements .agreement-content {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 /* numbers */
 .onecheckout-index-index .onecheckout-title {
-	background: url("1.png") left center no-repeat;
-	padding-left: 28px;
+    background: url("1.png") left center no-repeat;
+    padding-left: 28px;
 }
 .onecheckout-index-index #shippingmethod .onecheckout-title {
-	background-image: url("2.png");
+    background-image: url("2.png");
 }
 .onecheckout-index-index #paymentmethod .onecheckout-title {
-	background-image: url("3.png");
+    background-image: url("3.png");
 }
 .onecheckout-index-index .col-3 .onecheckout-title {
-	background-image: url("4.png");
+    background-image: url("4.png");
 }
 
 /* layout hack :-) */
 .onecheckout-index-index #payment_form_pnsofortueberweisung {
-	width: 265px !important;
+    width: 265px !important;
 }
