@@ -8,7 +8,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php /* @var MageProfis_OneCheckout_Block_Checkout $this */ ?>
+<?php /* @var $this MageProfis_OneCheckout_Block_Checkout */ ?>
 <div class="page-title">
     <h1><?php echo $this->__('Checkout') ?></h1>
 </div>
@@ -16,7 +16,7 @@
     <?php if (!$this->isCustomerLoggedIn()): ?>
         <?php echo $this->__('You already have an account? <a href="#" id="onecheckout-login">Login here.</a>') ?>
         <div id="onecheckout-login-form" style="display: none">
-            <?php echo $this->getChildHtml("customer_form_login") ?>
+            <?php echo $this->getChildHtml('customer_form_login') ?>
             <a href="<?php echo $this->helper('customer')->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
         </div>
     <?php endif; ?>
@@ -26,46 +26,50 @@
     <div class="col-1">
         <div>
             <h2 class="onecheckout-title">
-                <?php echo $this->__("Billing Address") ?>
+                <?php echo $this->__('Billing Address') ?>
             </h2>
-            <?php echo $this->getChildHtml("billing") ?> 
+            <?php echo $this->getChildHtml('billing') ?> 
             <?php if (!$this->isCustomerLoggedIn()): ?>
                 <ul class="form-list">
                     <li class="control">
                         <input id="login:guest" class="checkbox" type="checkbox" value="register" name="checkout_method">
-                        <label for="login:guest"><?php echo $this->__("Create an account") ?></label>
+                        <label for="login:guest"><?php echo $this->__('Create an account') ?></label>
                     </li>
                 </ul>
             <?php endif; ?>
         </div>
-        <div id="shippingaddress" style="display: none">
-            <h2 class="onecheckout-title">
-                <?php echo $this->__("Shipping Address") ?>
-            </h2>
-            <?php echo $this->getChildHtml("shipping") ?> 
-        </div>
+        <?php if ($this->isShowShipping()): ?>
+            <div id="shippingaddress"<?php if ($this->getShippingIsSameAsBilling()): ?> style="display: none"<?php endif; ?>>
+                <h2 class="onecheckout-title">
+                    <?php echo $this->__('Shipping Address') ?>
+                </h2>
+                <?php echo $this->getChildHtml('shipping') ?> 
+            </div>
+        <?php endif ?>
     </div>
     <div class="col-2">
-        <div id="shippingmethod">
-            <h2 class="onecheckout-title">
-                <?php echo $this->__("Shipping Method") ?>
-            </h2>
-            <?php echo $this->getChildHtml("shipping_method") ?> 
-        </div>
+        <?php if ($this->isShowShipping()): ?>
+            <div id="shippingmethod">
+                <h2 class="onecheckout-title">
+                    <?php echo $this->__('Shipping Method') ?>
+                </h2>
+                <?php echo $this->getChildHtml('shipping_method') ?> 
+            </div>
+        <?php endif; ?>
         <div id="paymentmethod">
             <h2 class="onecheckout-title">
-                <?php echo $this->__("Payment Method") ?>
+                <?php echo $this->__('Payment Method') ?>
             </h2>
-            <?php echo $this->getChildHtml("payment") ?> 
+            <?php echo $this->getChildHtml('payment') ?> 
         </div>
     </div>
     <div class="col-3">
         <h2 class="onecheckout-title">
-            <?php echo $this->__("Summary") ?>
+            <?php echo $this->__('Summary') ?>
         </h2>
         <?php echo $this->getChildHtml('agreements') ?>
         <div id="checkout-review-load">
-            <?php echo $this->getChildHtml("review") ?> 
+            <?php echo $this->getChildHtml('review') ?> 
         </div>
         <div class="clearer"></div>
         <div id="checkout-review-submit">
@@ -89,10 +93,10 @@
     checkout.completeUrl = "<?php echo $this->getCompleteUrl(); ?>";
     checkout.successUrl = "<?php echo $this->getSuccessUrl() ?>";
     checkout.preloginUrl = "<?php echo $this->getPreLoginUrl(); ?>";
-    checkout.imsg = "<?php echo Mage::helper("onecheckout")->__("L invalid") ?>";
-    checkout.triggerShipping = <?php echo Mage::helper("onecheckout")->getTriggers("shipping_method") ?>;
-    checkout.triggerPayment = <?php echo Mage::helper("onecheckout")->getTriggers("payment_method") ?>;
-    checkout.triggerReview = <?php echo Mage::helper("onecheckout")->getTriggers("review") ?>;
+    checkout.imsg = "<?php echo Mage::helper('onecheckout')->__('L invalid') ?>";
+    checkout.triggerShipping = <?php echo Mage::helper('onecheckout')->getTriggers('shipping_method') ?>;
+    checkout.triggerPayment = <?php echo Mage::helper('onecheckout')->getTriggers('payment_method') ?>;
+    checkout.triggerReview = <?php echo Mage::helper('onecheckout')->getTriggers('review') ?>;
 
     review = new Review($('checkout-agreements'));
 

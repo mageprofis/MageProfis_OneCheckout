@@ -11,6 +11,52 @@ class MageProfis_OneCheckout_Block_Checkout
 extends Mage_Core_Block_Template
 {
     /**
+     * Retrieve checkout session model
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    public function getCheckout()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+
+    /**
+     * Retrieve quote session model
+     * 
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return $this->getCheckout()->getQuote();
+    }
+
+    /**
+     * check if Shipping Adress is Same as Billing Adress
+     * 
+     * @return boolean
+     */
+    public function getShippingIsSameAsBilling()
+    {
+        $shippingBlock = $this->getChild('shipping');
+        /* @var $shippingBlock Mage_Checkout_Block_Onepage_Shipping */
+        if ($shippingBlock instanceof Mage_Checkout_Block_Onepage_Shipping)
+        {
+            return $shippingBlock->getAddress()->getSameAsBilling();
+        }
+        return false;
+    }
+    
+    /**
+     * Retrieve is allow and show block
+     *
+     * @return bool
+     */
+    public function isShowShipping()
+    {
+        return !$this->getQuote()->isVirtual();
+    }
+
+    /**
      * is Customer Logged in
      * 
      * @return bool
@@ -21,7 +67,7 @@ extends Mage_Core_Block_Template
     }
 
     /**
-     * 
+     * Show Edit Cart Button on Checkout
      * 
      * @return bool
      */
