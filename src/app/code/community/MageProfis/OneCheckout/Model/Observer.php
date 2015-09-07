@@ -94,4 +94,19 @@ extends Mage_Core_Model_Abstract
     {
         return Mage::app()->getRequest();
     }
+    
+    /**
+     * load alternative layout if Wbcomm-magento-boilerplate is used
+     * @param type $event
+     */
+    public function addLayoutXml($event)
+    {
+        if (Mage::getConfig()->getModuleConfig('Webcomm_MagentoBoilerplate')->is('active', 'true'))
+        {
+            $xml = $event->getUpdates()
+                    ->addChild('onecheckout_boilerplate');
+            $xml->addAttribute('module', 'MageProfis_OneCheckout');
+            $xml->addChild('file', 'onecheckout-boilerplate.xml');
+        }
+    }
 }

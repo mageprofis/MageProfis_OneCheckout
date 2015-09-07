@@ -36,6 +36,17 @@
                 </rewrite>
             </checkout>
         </helpers>
+        <events>
+            <core_layout_update_updates_get_after>
+                <observers>
+                    <onecheckout>
+                        <type>singleton</type>
+                        <class>onecheckout/observer</class>
+                        <method>addLayoutXml</method>
+                    </onecheckout>
+                </observers>
+            </core_layout_update_updates_get_after>
+        </events>
     </global>
     <adminhtml>
         <translate>
