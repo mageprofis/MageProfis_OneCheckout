@@ -49,6 +49,10 @@
                 </block>
                 <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment" template="checkout/onepage/payment.phtml">
                     <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="checkout/onepage/payment/methods.phtml">
+                        <action method="setFrameTags">
+                            <before>div id="checkout-payment-method-load"</before>
+                            <after>/div</after>
+                        </action>
                         <action method="setMethodFormTemplate">
                             <method>purchaseorder</method>
                             <template>payment/form/purchaseorder.phtml</template>

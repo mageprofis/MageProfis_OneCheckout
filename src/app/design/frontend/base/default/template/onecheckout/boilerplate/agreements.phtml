@@ -1,0 +1,39 @@
+<?php
+/**
+ *
+ * @category   MageProfis
+ * @package    MageProfis_OneCheckout
+ * @copyright  Copyright (c) 2015 Ulrich Abelmann
+ * @copyright  Copyright (c) 2015 MageProfis GmbH
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php /* @var $this Mage_Checkout_Block_Agreements */ ?>
+<?php if (!$this->getAgreements()) return; ?>
+<form action="" id="checkout-agreements" onsubmit="return false;">
+    <ol class="checkout-agreements">
+        <?php foreach ($this->getAgreements() as $_a): ?>
+            <li>
+                <p class="agree">
+                    <input type="checkbox" id="agreement-<?php echo $_a->getId() ?>" name="agreement[<?php echo $_a->getId() ?>]" value="1" title="<?php echo $this->htmlEscape($_a->getCheckboxText()) ?>" class="checkbox" /><label for="agreement-<?php echo $_a->getId() ?>"><?php echo Mage::helper("onecheckout/agreements")->getBoilerplateLinkedText($_a); ?></label>
+                </p>
+            </li>
+            <div id="agreement-content-<?php echo $_a->getId() ?>" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><?php echo $_a->getName(); ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p><?php echo $_a->getContent(); ?></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->__('close')?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
+    </ol>
+</form>

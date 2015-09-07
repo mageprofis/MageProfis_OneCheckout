@@ -32,5 +32,20 @@ class MageProfis_OneCheckout_Helper_Agreements extends Mage_Core_Helper_Abstract
         }
         return $text;
     }
+    
+    /**
+     * if webcomm boilerplate is used, we can use bootstrap modals
+     * @param type $agreement
+     * @return type
+     */
+    public function getBoilerplateLinkedText($agreement)
+    {
+        $text = Mage::helper('core')->escapeHtml($agreement->getCheckboxText(), null);
+
+        foreach ($this->getKeywords() as $word) {
+            $text = str_replace($word, '<a href="#" data-toggle="modal" data-target="#agreement-content-' . $agreement->getId() . '" >' . $word . '</a>', $text);
+        }
+        return $text;
+    }
 
 }

@@ -1,5 +1,6 @@
 src/app/code/community/MageProfis/OneCheckout                   app/code/community/MageProfis/OneCheckout
 src/app/design/frontend/base/default/layout/onecheckout.xml     app/design/frontend/base/default/layout/onecheckout.xml
+src/app/design/frontend/base/default/layout/onecheckout-boilerplate.xml app/design/frontend/base/default/layout/onecheckout-boilerplate.xml
 src/app/design/frontend/base/default/template/onecheckout       app/design/frontend/base/default/template/onecheckout
 src/app/etc/modules/MageProfis_OneCheckout.xml                  app/etc/modules/MageProfis_OneCheckout.xml
 src/app/locale/de_DE/MageProfis_OneCheckout.csv                 app/locale/de_DE/MageProfis_OneCheckout.csv
