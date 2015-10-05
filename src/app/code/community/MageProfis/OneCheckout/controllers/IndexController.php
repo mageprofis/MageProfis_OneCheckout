@@ -37,7 +37,7 @@ extends Mage_Checkout_Controller_Action
     }
 
     /**
-     * 
+     *
      * @return Mage_Checkout_Model_Type_Onepage
      */
     protected function getCheckout()
@@ -46,7 +46,7 @@ extends Mage_Checkout_Controller_Action
     }
 
     /**
-     * 
+     *
      * @return Mage_Sales_Model_Quote
      */
     protected function getQuote()
@@ -56,7 +56,7 @@ extends Mage_Checkout_Controller_Action
 
     /**
      * init Address
-     * 
+     *
      * @param array $address
      */
     protected function initAddress($address)
@@ -117,7 +117,7 @@ extends Mage_Checkout_Controller_Action
     /**
      * check if multicheckout is active and
      * remove all other addresses from quote
-     * 
+     *
      * @return MageProfis_OneCheckout_IndexController
      */
     public function preDispatch()
