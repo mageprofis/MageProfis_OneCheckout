@@ -20,7 +20,7 @@ extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * 
+     *
      * @return Mage_Sales_Model_Quote
      */
     protected function getQuote()
@@ -30,7 +30,7 @@ extends Mage_Core_Helper_Abstract
 
     /**
      * get Shipping Methods
-     * 
+     *
      * @return array
      */
     public function getShipping()
@@ -43,7 +43,7 @@ extends Mage_Core_Helper_Abstract
 
         $address = $quote->getShippingAddress();
         $j = 0;
-        $list = array();
+        $methods = array();
         if (empty($selectedShippingMethod)) {
             $address
                     ->collectTotals()
@@ -56,19 +56,19 @@ extends Mage_Core_Helper_Abstract
                 foreach ($group as $method) {
                     if (!$method->getErrorMessage()) {
                         $code = $method->getCode();
-                        $list[$code] = $code;
+                        $methods[$code] = $code;
                         $j++;
                     }
                 }
             }
         }
         Mage::getModel("customer/session")->setOneCheckoutVal(count($methods));
-        return $list;
+        return $methods;
     }
 
     /**
      * get First Shipping Method
-     * 
+     *
      * @return boolean|Varien_Object
      */
     public function getFirstShipping()
@@ -82,7 +82,7 @@ extends Mage_Core_Helper_Abstract
 
     /**
      * get Payment Methods
-     * 
+     *
      * @return array
      */
     public function getPayment()
@@ -104,7 +104,7 @@ extends Mage_Core_Helper_Abstract
 
     /**
      * get First Payment Method
-     * 
+     *
      * @return boolean|Varien_Object
      */
     public function getFirstPayment()
@@ -118,7 +118,7 @@ extends Mage_Core_Helper_Abstract
 
     /**
      * can Use Payment Method
-     * 
+     *
      * @param string $method
      * @return boolean
      */
@@ -129,6 +129,10 @@ extends Mage_Core_Helper_Abstract
         }
 
         if (!$method->canUseForCurrency(Mage::app()->getStore()->getBaseCurrencyCode())) {
+            return false;
+        }
+
+        if (in_array($method->getCode(), $this->_getPaymentMethodBlacklist())) {
             return false;
         }
 
@@ -145,4 +149,16 @@ extends Mage_Core_Helper_Abstract
         return true;
     }
 
+    /**
+     * These methods should never, under no circumstances, be valid for
+     * one step checkout
+     *
+     * @return array
+     */
+    protected function _getPaymentMethodBlacklist()
+    {
+        return array(
+            'paypal_billing_agreement',
+        );
+    }
 }
