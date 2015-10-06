@@ -59,7 +59,7 @@
                         </action>
                     </block>
                 </block>
-                <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+                <block type="onecheckout/checkout_agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
                 <block type="core/template" name="checkout.onepage.review.button" as="button" template="checkout/onepage/review/button.phtml"/>
                 <block type="checkout/onepage_review_info" name="review" template="onecheckout/review/info.phtml">
                     <action method="addItemRender">
@@ -97,8 +97,8 @@
             </action>
         </reference>
     </onecheckout_index_index>
-    <!-- 
-          this is done by a controller 
+    <!--
+          this is done by a controller
           reason: mxperts noregion removes this layout
     -->
     <!-- <checkout_cart_index>

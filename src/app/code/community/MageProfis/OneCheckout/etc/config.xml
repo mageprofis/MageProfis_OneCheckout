@@ -36,17 +36,6 @@
                 </rewrite>
             </checkout>
         </helpers>
-        <events>
-            <core_layout_update_updates_get_after>
-                <observers>
-                    <onecheckout>
-                        <type>singleton</type>
-                        <class>onecheckout/observer</class>
-                        <method>addLayoutXml</method>
-                    </onecheckout>
-                </observers>
-            </core_layout_update_updates_get_after>
-        </events>
     </global>
     <adminhtml>
         <translate>
@@ -148,6 +137,17 @@
                     </onecheckout>
                 </observers>
             </checkout_type_onepage_save_order>
+
+            <!-- Add another layout.xml if Webcomm_Boilerplate is installed -->
+            <core_layout_update_updates_get_after>
+                <observers>
+                    <onecheckout>
+                        <type>singleton</type>
+                        <class>onecheckout/observer</class>
+                        <method>addLayoutXml</method>
+                    </onecheckout>
+                </observers>
+            </core_layout_update_updates_get_after>
         </events>
     </frontend>
     <default>
