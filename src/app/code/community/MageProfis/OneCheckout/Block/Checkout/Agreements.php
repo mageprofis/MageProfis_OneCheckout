@@ -1,0 +1,5 @@
+<?php
+
+class MageProfis_OneCheckout_Block_Checkout_Agreements extends MageProfis_OneCheckout_Block_Checkout_Agreements_Abstract
+{
+}
