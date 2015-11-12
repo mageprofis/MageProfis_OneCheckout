@@ -87,6 +87,16 @@ extends Mage_Core_Block_Template
     }
 
     /**
+     * get Ajax / Review Url
+     * 
+     * @return string
+     */
+    public function getAjaxReviewUrl()
+    {
+        return Mage::getUrl('onecheckout/ajax/review');
+    }
+
+    /**
      * get Failure Url
      * 
      * @return string

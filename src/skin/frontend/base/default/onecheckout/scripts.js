@@ -97,8 +97,15 @@ OneCheckout.prototype = {
             method: 'post',
             parameters: paras,
             onSuccess: function (transport) {
-                that.setLoading(false);
                 that.evaluateResponse(transport);
+                new Ajax.Request(that.reviewUrl, {
+                    method: 'post',
+                    parameters: paras,
+                    onSuccess: function (transport) {
+                        that.setLoading(false);
+                        that.evaluateResponse(transport);
+                    }
+                });
             }
         });
     },

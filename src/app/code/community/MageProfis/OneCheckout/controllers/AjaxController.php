@@ -181,6 +181,29 @@ extends Mage_Core_Controller_Front_Action
 
         $this->getQuote()->setTotalsCollectedFlag(false)->collectTotals()->save();
 
+        $this->getResponse()->setHeader('Content-type', 'application/json', true);
+        $this->getResponse()->setHeader('X-Robots-Tag', 'noindex, nofollow', true);
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        return $this;
+    }
+
+    /**
+     * review Action, returns json string
+     * 
+     * @return MageProfis_OneCheckout_AjaxController
+     */
+    public function reviewAction()
+    {
+        if ($this->_expireAjax()) {
+            return $this;
+        }
+        
+        if (!$this->getRequest()->isPost()) {
+            return $this;
+        }
+
+        $result = array();
+
         $result['updates']['checkout-payment-method-load'] = $this->_getPaymentMethodsHtml();
         $result['updates']['checkout-shipping-method-load'] = $this->_getShippingMethodsHtml();
         $result['updates']['checkout-review-load'] = $this->_getReviewHtml();
