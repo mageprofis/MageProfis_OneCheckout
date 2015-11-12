@@ -2,8 +2,9 @@
 var OneCheckout = Class.create();
 OneCheckout.prototype = {
     initialize: function () {
-        this.saveUrl = '';
-        this.failureUrl = '';
+        this.saveUrl = '/onecheckout/ajax/update';
+        this.reviewUrl = '/onecheckout/ajax/review';
+        this.failureUrl = '/checkout/cart';
         this.completeUrl = '';
         this.submitted = false;
         this.loadWaiting = false;
