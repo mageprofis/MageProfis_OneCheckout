@@ -24,7 +24,7 @@
 <script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
 <div class="row">
     <div class="col-sm-6">
-        <div>
+        <div id="billingaddress">
             <h2 class="onecheckout-title">
                 <?php echo $this->__('Billing Address') ?>
             </h2>
@@ -64,23 +64,25 @@
         </div>
     </div>
     <div class="col-sm-12">
-        <h2 class="onecheckout-title">
-            <?php echo $this->__('Summary') ?>
-        </h2>
-        <?php echo $this->getChildHtml('agreements') ?>
-        <div id="checkout-review-load">
-            <?php echo $this->getChildHtml('review') ?> 
-        </div>
-        <div class="clearer"></div>
-        <div id="checkout-review-submit">
-            <div class="buttons-set" id="review-buttons-container">
-                <?php if($this->showEditCartButton()): ?>
-                    <p class="f-left"><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Your Cart') ?></a></p>
-                <?php endif; ?>
-                <?php echo $this->getChildHtml('button') ?>
-                <span class="please-wait" id="review-please-wait" style="display:none;">
-                    <img src="<?php echo $this->getSkinUrl('onecheckout/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
-                </span>
+        <div id="onecheckout-review">
+            <h2 class="onecheckout-title">
+                <?php echo $this->__('Summary') ?>
+            </h2>
+            <?php echo $this->getChildHtml('agreements') ?>
+            <div id="checkout-review-load">
+                <?php echo $this->getChildHtml('review') ?> 
+            </div>
+            <div class="clearer"></div>
+            <div id="checkout-review-submit">
+                <div class="buttons-set" id="review-buttons-container">
+                    <?php if($this->showEditCartButton()): ?>
+                        <p class="f-left"><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Your Cart') ?></a></p>
+                    <?php endif; ?>
+                    <?php echo $this->getChildHtml('button') ?>
+                    <span class="please-wait" id="review-please-wait" style="display:none;">
+                        <img src="<?php echo $this->getSkinUrl('onecheckout/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
