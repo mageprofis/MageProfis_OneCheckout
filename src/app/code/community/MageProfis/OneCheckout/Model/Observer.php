@@ -108,5 +108,19 @@ extends Mage_Core_Model_Abstract
             $xml->addAttribute('module', 'MageProfis_OneCheckout');
             $xml->addChild('file', 'onecheckout-boilerplate.xml');
         }
+        if (Mage::getStoreConfig('onecheckout/compatibility/payone'))
+        {
+            $xml = $event->getUpdates()
+                    ->addChild('onecheckout_payone');
+            $xml->addAttribute('module', 'MageProfis_OneCheckout');
+            $xml->addChild('file', 'onecheckout/payone.xml');
+        }
+        if (Mage::getStoreConfig('onecheckout/compatibility/billpay'))
+        {
+            $xml = $event->getUpdates()
+                    ->addChild('onecheckout_billpay');
+            $xml->addAttribute('module', 'MageProfis_OneCheckout');
+            $xml->addChild('file', 'onecheckout/billpay.xml');
+        }
     }
 }

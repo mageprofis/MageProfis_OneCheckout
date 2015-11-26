@@ -198,7 +198,10 @@ OneCheckout.prototype = {
         if (source == "default" || source == "checkout-payment-method-load") {
             $$("#paymentmethod input.radio").each(function (elem) {
                 elem.observe("click", function () {
-                    that.update("payment_method");
+                    // BILLPAY FIX
+                    if(this.value.indexOf("billpay") == -1){
+                        that.update("payment_method");
+                    }
                 });
             });
         }
