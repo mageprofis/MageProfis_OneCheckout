@@ -83,7 +83,7 @@ extends Mage_Core_Block_Template
      */
     public function getAjaxSaveUrl()
     {
-        return Mage::getUrl('onecheckout/ajax/update');
+        return Mage::getUrl('onecheckout/ajax/update',array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
     }
 
     /**
@@ -93,7 +93,7 @@ extends Mage_Core_Block_Template
      */
     public function getAjaxReviewUrl()
     {
-        return Mage::getUrl('onecheckout/ajax/review');
+        return Mage::getUrl('onecheckout/ajax/review',array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
     }
 
     /**
@@ -107,13 +107,13 @@ extends Mage_Core_Block_Template
     }
 
     /**
-     * get Complete Url
+     * get Complete Url 
      * 
      * @return string
      */
     public function getCompleteUrl()
     {
-        return Mage::getUrl('checkout/onepage/saveOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey()));
+        return Mage::getUrl('checkout/onepage/saveOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey(),'_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
     }
 
     /**
@@ -123,7 +123,7 @@ extends Mage_Core_Block_Template
      */
     public function getSuccessUrl()
     {
-        return Mage::getUrl('checkout/onepage/success');
+        return Mage::getUrl('checkout/onepage/success',array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
     }
 
     /**
@@ -133,6 +133,6 @@ extends Mage_Core_Block_Template
      */
     public function getPreLoginUrl()
     {
-        return Mage::getUrl('onecheckout/ajax/preLogin');
+        return Mage::getUrl('onecheckout/ajax/preLogin',array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
     }
 }
