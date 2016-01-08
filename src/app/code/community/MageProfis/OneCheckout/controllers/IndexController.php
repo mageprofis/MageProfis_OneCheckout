@@ -66,10 +66,6 @@ extends Mage_Checkout_Controller_Action
             $defaultCountry = Mage::getStoreConfig('general/country/default');
             $address
                     ->setCountryId($defaultCountry)
-                    ->setCity('-')
-                    ->setRegionId(1)
-                    ->setPostcode('-')
-                    ->setStreet(array('-'))
                     ->setCollectShippingRates(true);
         }
     }
