@@ -65,6 +65,7 @@ extends Mage_Checkout_Controller_Action
         if (empty($country)) {
             $defaultCountry = Mage::getStoreConfig('general/country/default');
             $address
+                    ->setRegionId(1)
                     ->setCountryId($defaultCountry)
                     ->setCollectShippingRates(true);
         }
