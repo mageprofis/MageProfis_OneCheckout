@@ -41,7 +41,7 @@ extends Mage_Core_Block_Template
         /* @var $shippingBlock Mage_Checkout_Block_Onepage_Shipping */
         if ($shippingBlock instanceof Mage_Checkout_Block_Onepage_Shipping)
         {
-            $same_as_billing = $shippingBlock->getAdds()->getSameAsBilling();
+            $same_as_billing = $shippingBlock->getAddress()->getSameAsBilling();
             // if address is not set return true
             if (is_null($same_as_bil))
             {
