@@ -1,0 +1,30 @@
+{
+  "name": "mageprofis/onecheckout",
+  "license": "GPL-3.0",
+  "type": "magento-module",
+  "description": "One Step Checkout extension for Magento",
+  "homepage": "https://github.com/mageprofis/MageProfis_OneCheckout",
+  "require": {
+    "php": ">=5.3"
+  },
+  "suggest": {
+    "magento-hackathon/magento-composer-installer": "*"
+  },
+  "authors": [
+    {
+      "name": "Ulrich Abelmann",
+      "email": "u.abelmann@loewenstark.com",
+      "role": "Author/Maintainer"
+    },
+    {
+      "name": "Mathis Klooß",
+      "email": "mathis@mage-profis.de",
+      "role": "Author/Maintainer"
+    },
+    {
+      "name": "Volker Thiel",
+      "email": "volker@mage-profis.de",
+      "role": "Contributor"
+    }
+  ]
+}
