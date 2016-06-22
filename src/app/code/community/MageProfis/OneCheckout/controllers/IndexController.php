@@ -104,7 +104,11 @@ extends Mage_Checkout_Controller_Action
                 $data = array(
                     "method" => $firstPaymentMethod,
                 );
-                $this->getCheckout()->savePayment($data);
+                try {
+                    $this->getCheckout()->savePayment($data);
+                } catch(Exception $e){
+                    $this->getCheckout()->savePayment();
+                }
             }
         }
 
