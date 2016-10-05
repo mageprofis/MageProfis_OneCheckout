@@ -43,7 +43,7 @@ extends Mage_Core_Block_Template
         {
             $same_as_billing = $shippingBlock->getAddress()->getSameAsBilling();
             // if address is not set return true
-            if (is_null($same_as_bil))
+            if (is_null($same_as_billing))
             {
                 return true;
             }
