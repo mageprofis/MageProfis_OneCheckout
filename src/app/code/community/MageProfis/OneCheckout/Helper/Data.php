@@ -55,7 +55,7 @@ extends Mage_Core_Helper_Abstract
      */
     public function setAddresses()
     {
-        if ($this->getCheckout()->getIsOneStepCheckout())
+        if ($this->getCheckout()->getCheckout()->getIsOneStepCheckout())
         {
             $result = array();
             if ($this->getRequest()->isPost()) {
