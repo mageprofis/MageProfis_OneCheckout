@@ -22,6 +22,8 @@ extends Mage_Core_Model_Abstract
             Mage::app()->getResponse()
                 ->setRedirect($url, 301)
                 ->sendResponse();
+        } else {
+            $this->isDefaultCheckout($observer);
         }
     }
 
@@ -31,9 +33,9 @@ extends Mage_Core_Model_Abstract
      */
     public function setCheckoutMethods()
     {
-        if (Mage::helper("onecheckout")->isActive()) {
-            $this->_setCheckoutMethods("checkout.cart.methods");
-            $this->_setCheckoutMethods("checkout.cart.top_methods");
+        if (Mage::helper('onecheckout')->isActive()) {
+            $this->_setCheckoutMethods('checkout.cart.methods');
+            $this->_setCheckoutMethods('checkout.cart.top_methods');
         }
     }
 
@@ -62,7 +64,7 @@ extends Mage_Core_Model_Abstract
      */
     public function setAddresses($observer)
     {
-        Mage::helper("onecheckout")->setAddresses();
+        Mage::helper('onecheckout')->setAddresses();
     }
 
     /**
@@ -94,13 +96,17 @@ extends Mage_Core_Model_Abstract
     {
         return Mage::app()->getRequest();
     }
-    
+
     /**
      * load alternative layout if Wbcomm-magento-boilerplate is used
      * @param type $event
      */
     public function addLayoutXml($event)
     {
+        if ($this->isAdmin())
+        {
+            return;
+        }
         if (Mage::getConfig()->getModuleConfig('Webcomm_MagentoBoilerplate')->is('active', 'true'))
         {
             $xml = $event->getUpdates()
@@ -122,5 +128,34 @@ extends Mage_Core_Model_Abstract
             $xml->addAttribute('module', 'MageProfis_OneCheckout');
             $xml->addChild('file', 'onecheckout/billpay.xml');
         }
+    }
+
+    /**
+     * 
+     * @param Varien_Event_Observer $event
+     */
+    public function isDefaultCheckout($event)
+    {
+        Mage::getSingleton('checkout/session')->setIsOneStepCheckout(false);
+    }
+
+    /**
+     * Check in wich area we are
+     * 
+     * @return boolean
+     */
+    protected function isAdmin()
+    {
+        if(Mage::app()->getStore()->isAdmin())
+        {
+            return true;
+        }
+
+        if(Mage::getDesign()->getArea() == 'adminhtml')
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -55,30 +55,33 @@ extends Mage_Core_Helper_Abstract
      */
     public function setAddresses()
     {
-        $result = array();
-        if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost('billing', array());
-            $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
-            if (isset($data['email'])) {
-                $data['email'] = trim($data['email']);
-            }
-            $method = $this->getRequest()->getPost('checkout_method', false);
-            if ($method) {
-                $newMethod = Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER;
-                $this->getCheckout()->getQuote()->setCheckoutMethod($newMethod);
-            }
+        if ($this->getCheckout()->getIsOneStepCheckout())
+        {
+            $result = array();
+            if ($this->getRequest()->isPost()) {
+                $data = $this->getRequest()->getPost('billing', array());
+                $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
+                if (isset($data['email'])) {
+                    $data['email'] = trim($data['email']);
+                }
+                $method = $this->getRequest()->getPost('checkout_method', false);
+                if ($method) {
+                    $newMethod = Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER;
+                    $this->getCheckout()->getQuote()->setCheckoutMethod($newMethod);
+                }
 
-            $result['savebilling'] = $this->getCheckout()->saveBilling($data, $customerAddressId);
+                $result['savebilling'] = $this->getCheckout()->saveBilling($data, $customerAddressId);
 
 
-            $usingCase = isset($data['use_for_shipping']) ? (int) $data['use_for_shipping'] : 0;
-            if (!$usingCase) {
-                $data = $this->getRequest()->getPost('shipping', array());
+                $usingCase = isset($data['use_for_shipping']) ? (int) $data['use_for_shipping'] : 0;
+                if (!$usingCase) {
+                    $data = $this->getRequest()->getPost('shipping', array());
+                }
+                $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
+                $result['saveshipping'] = $this->getCheckout()->saveShipping($data, $customerAddressId);
             }
-            $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
-            $result['saveshipping'] = $this->getCheckout()->saveShipping($data, $customerAddressId);
+            return $result;
         }
-        return $result;
     }
 
     /**

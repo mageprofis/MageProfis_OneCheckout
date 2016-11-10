@@ -10,6 +10,15 @@
 class MageProfis_OneCheckout_AjaxController
 extends Mage_Core_Controller_Front_Action
 {
+    /**
+     *
+     * @return MageProfis_OneCheckout_AjaxController
+     */
+    public function preDispatch()
+    {
+        $this->getOnepage()->getCheckout()->setIsOneStepCheckout(true);
+        return parent::preDispatch();
+    }
 
     /**
      * @return Mage_Checkout_Model_Cart

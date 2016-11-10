@@ -76,6 +76,7 @@ extends Mage_Checkout_Controller_Action
      */
     protected function initCheckout()
     {
+        $this->getCheckout()->getCheckout()->setIsOneStepCheckout(true);
         Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
         //Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure'=>true)));
         //$this->getCheckout()->initCheckout();
