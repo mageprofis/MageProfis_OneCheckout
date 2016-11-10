@@ -14,10 +14,10 @@ extends Mage_Core_Controller_Front_Action
      *
      * @return MageProfis_OneCheckout_AjaxController
      */
-    public function preDispatch()
+    public function postDispatch()
     {
         $this->getOnepage()->getCheckout()->setIsOneStepCheckout(true);
-        return parent::preDispatch();
+        return parent::postDispatch();
     }
 
     /**

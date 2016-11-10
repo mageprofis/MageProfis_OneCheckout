@@ -138,46 +138,46 @@
                 </observers>
             </checkout_type_onepage_save_order>
             <!-- BOF: set Default Checkout -->
-            <controller_action_predispatch_checkout_onepage_saveMethod>
+            <controller_action_postdispatch_checkout_onepage_saveMethod>
                 <observers>
                     <onecheckout>
                         <class>onecheckout/observer</class>
                         <method>isDefaultCheckout</method>
                     </onecheckout>
                 </observers>
-            </controller_action_predispatch_checkout_onepage_saveMethod>
-            <controller_action_predispatch_checkout_onepage_saveBilling>
+            </controller_action_postdispatch_checkout_onepage_saveMethod>
+            <controller_action_postdispatch_checkout_onepage_saveBilling>
                 <observers>
                     <onecheckout>
                         <class>onecheckout/observer</class>
                         <method>isDefaultCheckout</method>
                     </onecheckout>
                 </observers>
-            </controller_action_predispatch_checkout_onepage_saveBilling>
-            <controller_action_predispatch_checkout_onepage_saveShippingMethod>
+            </controller_action_postdispatch_checkout_onepage_saveBilling>
+            <controller_action_postdispatch_checkout_onepage_saveShippingMethod>
                 <observers>
                     <onecheckout>
                         <class>onecheckout/observer</class>
                         <method>isDefaultCheckout</method>
                     </onecheckout>
                 </observers>
-            </controller_action_predispatch_checkout_onepage_saveShippingMethod>
-            <controller_action_predispatch_checkout_onepage_savePayment>
+            </controller_action_postdispatch_checkout_onepage_saveShippingMethod>
+            <controller_action_postdispatch_checkout_onepage_savePayment>
                 <observers>
                     <onecheckout>
                         <class>onecheckout/observer</class>
                         <method>isDefaultCheckout</method>
                     </onecheckout>
                 </observers>
-            </controller_action_predispatch_checkout_onepage_savePayment>
-            <controller_action_predispatch_checkout_onepage_progress>
+            </controller_action_postdispatch_checkout_onepage_savePayment>
+            <controller_action_postdispatch_checkout_onepage_progress>
                 <observers>
                     <onecheckout>
                         <class>onecheckout/observer</class>
                         <method>isDefaultCheckout</method>
                     </onecheckout>
                 </observers>
-            </controller_action_predispatch_checkout_onepage_progress>
+            </controller_action_postdispatch_checkout_onepage_progress>
             <!-- EOF: set Default Checkout -->
 
             <!-- Add another layout.xml if Webcomm_Boilerplate is installed -->
