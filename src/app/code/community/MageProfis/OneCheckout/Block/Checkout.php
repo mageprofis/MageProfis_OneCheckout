@@ -11,6 +11,17 @@ class MageProfis_OneCheckout_Block_Checkout
 extends Mage_Core_Block_Template
 {
     /**
+     * add automaticly additional data
+     * 
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return parent::_toHtml()
+                . $this->getChildHtml('additional.data');
+    }
+
+    /**
      * Retrieve checkout session model
      *
      * @return Mage_Checkout_Model_Session

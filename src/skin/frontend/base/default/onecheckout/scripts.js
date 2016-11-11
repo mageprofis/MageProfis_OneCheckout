@@ -21,6 +21,9 @@ OneCheckout.prototype = {
     getSteps: function () {
         this.steps = new Array(billing, shipping, shippingMethod, payment, review);
     },
+    ajaxFailure: function(){
+        location.href = this.failureUrl;
+    },
     save: function () {
         if (this.loadWaiting) {
             return;
@@ -111,7 +114,7 @@ OneCheckout.prototype = {
         });
     },
     setLoadWaiting: function (flag) {
-        // compability for ogone payment
+        //this.loadWaiting = flag;
     },
     setLoading: function (flag) {
         //areas = new Array("checkout-review-load", "checkout-shipping-method-load", "checkout-payment-method-load");
@@ -633,6 +636,7 @@ Payment.prototype = {
         return validateResult;
     },
     validate: function () {
+        //return false;
         var result = this.beforeValidate();
         if (result) {
             return true;
@@ -684,7 +688,7 @@ Payment.prototype = {
         checkout.setLoadWaiting(false);
     },
     save: function () {
-        // only for compatibility to ogone
+        // does not needed
     },
     initWhatIsCvvListeners: function () {
         $$('.cvv-what-is-this').each(function (element) {

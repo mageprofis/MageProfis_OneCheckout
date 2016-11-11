@@ -85,8 +85,11 @@
                         <label>Items After</label>
                     </block>
                 </block>
-            </block>
-            <block type="core/text_list" name="additional.product.info" translate="label">
+                <block type="core/text_list" name="onecheckout.additional.data" as="additional.data">
+                    <block type="onecheckout/payment_heidelpay" name="onecheckout.additional.payment.heidelpay" />
+                </block>
+            </block> 
+           <block type="core/text_list" name="additional.product.info" translate="label">
                 <label>Additional Product Info</label>
                 <block type="core/template" name="additional.product.info.attributes" template="onecheckout/attributes.phtml" />
             </block>
