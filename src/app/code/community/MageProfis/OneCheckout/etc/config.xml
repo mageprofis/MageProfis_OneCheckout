@@ -190,6 +190,17 @@
                     </onecheckout>
                 </observers>
             </core_layout_update_updates_get_after>
+            
+            <!-- fix payone bug: as logged in customer you can't choose a payment method -->
+            <customer_load_after>
+                <observers>
+                    <onecheckout>
+                        <type>singleton</type>
+                        <class>onecheckout/observer</class>
+                        <method>resetPayoneLastPaymentMethod</method>
+                    </onecheckout>
+                </observers>
+            </customer_load_after>
         </events>
     </frontend>
     <default>

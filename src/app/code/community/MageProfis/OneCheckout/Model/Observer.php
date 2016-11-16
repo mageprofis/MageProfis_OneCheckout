@@ -158,4 +158,16 @@ extends Mage_Core_Model_Abstract
 
         return false;
     }
+    
+    /**
+     * reset PayoneLastPaymentMethod
+     */
+    public function resetPayoneLastPaymentMethod($event)
+    {
+        $customer = $event->getDataObject();
+        
+        if ($customer && $customer->getPayoneLastPaymentMethod()) {
+            $customer->setPayoneLastPaymentMethod(false);
+        }
+    }
 }
