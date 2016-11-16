@@ -644,7 +644,6 @@ Payment.prototype = {
         return validateResult;
     },
     validate: function () {
-        //return false;
         var result = this.beforeValidate();
         if (result) {
             return true;
@@ -731,7 +730,36 @@ Review.prototype = {
     },
     save: function () {
         payment.save(); // ogone compatiblity
-        checkout.save();
+        
+        if($('payone_pseudocardpan')!=undefined && !$('payone_pseudocardpan').disabled)
+        {
+            var _this = this;
+            clearInterval(this.payoneInterval);
+            this.payoneIntervalCount = 0;
+            this.payoneInterval = window.setInterval(function(){
+                var show_error = false;
+                _this.payoneIntervalCount++;
+                
+                if($('payone_creditcard_hosted_error')!=undefined && $('payone_creditcard_hosted_error').visible()){
+                    clearInterval(_this.payoneInterval);
+                    alert('An error occurred, please check your data and try again.');
+                }else if($('payone_pseudocardpan').value==''){
+                    show_error = true;
+                }else{
+                    clearInterval(_this.payoneInterval);
+                    checkout.save();
+                }
+                
+                if(_this.payoneIntervalCount>50){
+                    alert('An error occurred, please check your data and try again.');
+                    clearInterval(_this.payoneInterval);
+                }
+            }, 200);
+        }
+        else
+        {
+            checkout.save();
+        }
     },
     resetLoadWaiting: function (transport) {
         checkout.setLoadWaiting(false, this.isSuccess);
