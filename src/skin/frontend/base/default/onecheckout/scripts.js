@@ -17,6 +17,7 @@ OneCheckout.prototype = {
         this.triggerPayment = new Array();
         this.triggerReview = new Array();
         this.updateAreas = '';
+        this.redirectBeforeSend = false;
     },
     getSteps: function () {
         this.steps = new Array(billing, shipping, shippingMethod, payment, review);
@@ -252,6 +253,13 @@ OneCheckout.prototype = {
                 location.href = response.redirect;
                 return;
             }
+            if (!response.updates) {
+                if (response.redirect_before_send) {
+                    this.redirectBeforeSend = response.redirect_before_send;
+                }else{
+                    this.redirectBeforeSend = false;
+                }
+            }   
             if (response.success) {
                 this.isSuccess = true;
                 window.location = this.successUrl;
@@ -713,6 +721,10 @@ Review.prototype = {
             return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
+            if(checkout.redirectBeforeSend!=false){
+                location.href = checkout.redirectBeforeSend;
+                return false;
+            }
             return true;
         }
         return false;

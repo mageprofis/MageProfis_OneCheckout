@@ -100,6 +100,12 @@ extends Mage_Checkout_Controller_Action
 
         // payment method
         $selectedPaymentMethod = $quote->getPayment()->getMethod();
+        
+        //reset selection if paypal express is selected because the redirect not work
+        if ($selectedPaymentMethod=='paypal_express') {
+            $selectedPaymentMethod = null;
+        }
+        
         if (empty($selectedPaymentMethod)) {
             if ($firstPaymentMethod = $helper->getFirstPayment()) {
                 $data = array(

@@ -196,6 +196,11 @@ extends Mage_Core_Controller_Front_Action
         $result = $this->_merge($result, $this->saveShippingMethod());
         $result = $this->_merge($result, $this->savePayment());
 
+        if (is_array($result) && array_key_exists('redirect', $result) && strstr($result['redirect'], 'paypal/express/start')!==false) {
+            $result['redirect_before_send'] = $result['redirect'];
+            unset($result['redirect']);
+        }
+        
         $this->getQuote()->setTotalsCollectedFlag(false)->collectTotals()->save();
 
         $this->getResponse()->setHeader('Content-type', 'application/json', true);
