@@ -18,6 +18,7 @@ OneCheckout.prototype = {
         this.triggerReview = new Array();
         this.updateAreas = '';
         this.redirectBeforeSend = false;
+        this.redirectOnNextUpdate = false;
     },
     getSteps: function () {
         this.steps = new Array(billing, shipping, shippingMethod, payment, review);
@@ -38,6 +39,12 @@ OneCheckout.prototype = {
                 doSave = false;
                 break;
             }
+        }
+        
+        if(doSave && this.redirectBeforeSend!=false){
+            this.redirectOnNextUpdate = true;
+            this.update('country');
+            return false;
         }
 
         if (doSave) {
@@ -256,6 +263,9 @@ OneCheckout.prototype = {
             if (!response.updates) {
                 if (response.redirect_before_send) {
                     this.redirectBeforeSend = response.redirect_before_send;
+                    if(this.redirectOnNextUpdate){
+                        location.href = this.redirectBeforeSend;
+                    }
                 }else{
                     this.redirectBeforeSend = false;
                 }
@@ -720,10 +730,6 @@ Review.prototype = {
             return;
         var validator = new Validation(this.form);
         if (validator.validate()) {
-            if(checkout.redirectBeforeSend!=false){
-                location.href = checkout.redirectBeforeSend;
-                return false;
-            }
             return true;
         }
         return false;
