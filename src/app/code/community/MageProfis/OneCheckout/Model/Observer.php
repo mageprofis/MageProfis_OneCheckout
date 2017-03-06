@@ -56,6 +56,8 @@ extends Mage_Core_Model_Abstract
             );
             $methodsBlock->insert($methodBlock);
             $methodsBlock->unsetChild("checkout.cart.methods.onepage");
+            $methodsBlock->unsetChild("checkout.cart.methods.onepage.bottom");
+            $methodsBlock->unsetChild("checkout.cart.methods.onepage.top");
         }
     }
 

@@ -91,33 +91,10 @@ extends Mage_Checkout_Controller_Action
         $this->initAddress($quote->getBillingAddress());
 
         // shipping method
-        $selectedShippingMethod = $address->getShippingMethod();
-        if (empty($selectedShippingMethod)) {
-            if ($firstShippingMethod = $helper->getFirstShipping()) {
-                $this->getCheckout()->saveShippingMethod($firstShippingMethod);
-            }
-        }
+        $helper->selectFirstShippingMethodIfEmpty(true);
 
         // payment method
-        $selectedPaymentMethod = $quote->getPayment()->getMethod();
-        
-        //reset selection if paypal express is selected because the redirect not work
-        if ($selectedPaymentMethod=='paypal_express') {
-            $selectedPaymentMethod = null;
-        }
-        
-        if (empty($selectedPaymentMethod)) {
-            if ($firstPaymentMethod = $helper->getFirstPayment()) {
-                $data = array(
-                    "method" => $firstPaymentMethod,
-                );
-                try {
-                    $this->getCheckout()->savePayment($data);
-                } catch(Exception $e){
-                    $this->getCheckout()->savePayment();
-                }
-            }
-        }
+        $helper->selectFirstPaymentMethodIfEmpty(true);
 
         $quote->collectTotals();
     }

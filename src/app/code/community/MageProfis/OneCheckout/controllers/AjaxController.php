@@ -190,12 +190,18 @@ extends Mage_Core_Controller_Front_Action
             return $this;
         }
 
+        if ($this->getQuote()->getItemsCount())
+        {
+            $this->_getCart()->init();
+            $this->_getCart()->save();
+        }
+        
         $this->importDataToAddresses();
         $result = array();
-        $result = $this->_merge($result, Mage::helper('onecheckout')->setAddresses());
+        $result = $this->_merge($result, Mage::helper('onecheckout')->setAddresses());        
         $result = $this->_merge($result, $this->saveShippingMethod());
         $result = $this->_merge($result, $this->savePayment());
-
+        
         if (is_array($result) && array_key_exists('redirect', $result) && strstr($result['redirect'], 'paypal/express/start')!==false) {
             $result['redirect_before_send'] = $result['redirect'];
             unset($result['redirect']);
@@ -230,8 +236,11 @@ extends Mage_Core_Controller_Front_Action
             $this->_getCart()->save();
         }
         
+        Mage::helper('onecheckout/methods')->selectFirstShippingMethodIfEmpty();
+        Mage::helper('onecheckout/methods')->selectFirstPaymentMethodIfEmpty();
+        $this->getQuote()->setTotalsCollectedFlag(false)->collectTotals()->save();
+        
         $result = array();
-
         $result['updates']['checkout-payment-method-load'] = $this->_getPaymentMethodsHtml();
         $result['updates']['checkout-shipping-method-load'] = $this->_getShippingMethodsHtml();
         $result['updates']['checkout-review-load'] = $this->_getReviewHtml();
@@ -299,7 +308,7 @@ extends Mage_Core_Controller_Front_Action
             $result = $this->getCheckout()->saveShippingMethod($data);
             /*
               $result will have erro data if shipping method is empty
-             */
+             */            
             if (!$result) {
                 Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request' => $this->getRequest(),
                     'quote' => $this->getQuote()));

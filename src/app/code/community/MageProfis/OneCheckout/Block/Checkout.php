@@ -58,7 +58,7 @@ extends Mage_Core_Block_Template
             {
                 return true;
             }
-            return (int) $same_as_billing;
+            return (bool) $same_as_billing;
         }
         return false;
     }

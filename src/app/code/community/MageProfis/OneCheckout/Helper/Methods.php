@@ -44,21 +44,17 @@ extends Mage_Core_Helper_Abstract
         $address = $quote->getShippingAddress();
         $j = 0;
         $methods = array();
-        if (empty($selectedShippingMethod)) {
-            $address
-                    ->collectTotals()
-                    ->setCollectShippingRates(true)
-                    ->collectShippingRates()
-                    ->setCollectShippingRates(true);
-            $groups = $address->getGroupedAllShippingRates();
-            $firstShippingMethod = null;
-            foreach ($groups as $c => $group) {
-                foreach ($group as $method) {
-                    if (!$method->getErrorMessage()) {
-                        $code = $method->getCode();
-                        $methods[$code] = $code;
-                        $j++;
-                    }
+        $address->collectTotals()
+                ->setCollectShippingRates(true)
+                ->collectShippingRates()
+                ->setCollectShippingRates(true);
+        $groups = $address->getGroupedAllShippingRates();
+        foreach ($groups as $c => $group) {
+            foreach ($group as $method) {
+                if (!$method->getErrorMessage()) {
+                    $code = $method->getCode();
+                    $methods[$code] = $code;
+                    $j++;
                 }
             }
         }
@@ -76,6 +72,22 @@ extends Mage_Core_Helper_Abstract
         $methods = $this->getShipping();
         foreach ($methods as $code => $method) {
             return $code;
+        }
+        return false;
+    }
+    
+    /**
+     * Check If Shipping Method is avaible
+     *
+     * @return boolean|Varien_Object
+     */
+    public function canUseShippingMethodByCode($code)
+    {
+        $methods = $this->getShipping();
+        foreach ($methods as $shipping_code => $method) {
+            if($shipping_code==$code){
+                return true;
+            }
         }
         return false;
     }
@@ -112,6 +124,22 @@ extends Mage_Core_Helper_Abstract
         $methods = $this->getPayment();
         foreach ($methods as $method) {
             return $method->getCode();
+        }
+        return false;
+    }
+    
+    /**
+     * Check If Payment Method is avaible
+     *
+     * @return boolean|Varien_Object
+     */
+    public function canUsePaymentMethodByCode($code)
+    {
+        $methods = $this->getPayment();
+        foreach ($methods as $method) {
+            if($method->getCode()==$code){
+                return true;
+            }
         }
         return false;
     }
@@ -160,5 +188,51 @@ extends Mage_Core_Helper_Abstract
         return array(
             'paypal_billing_agreement',
         );
+    }
+    
+    public function selectFirstShippingMethodIfEmpty($init=false)
+    {
+        $quote = $this->getQuote();
+        $address = $quote->getShippingAddress();
+        $selectedShippingMethod = $address->getShippingMethod(); 
+        
+        if (!empty($selectedShippingMethod) && !$this->canUseShippingMethodByCode($selectedShippingMethod)) {
+            $selectedShippingMethod = null;
+        }
+        
+        if (empty($selectedShippingMethod)) {
+            if ($firstShippingMethod = $this->getFirstShipping()) {
+                $this->getCheckout()->saveShippingMethod($firstShippingMethod);
+            }
+        }
+    }
+    
+    public function selectFirstPaymentMethodIfEmpty($init=false)
+    {
+        $quote = $this->getQuote();
+        $selectedPaymentMethod = $quote->getPayment()->getMethod();
+        
+        //reset selection if paypal express is selected because the redirect not work
+        //do this only on init, because in other cases you cannot select paypal express...
+        if ($init && $selectedPaymentMethod=='paypal_express') {
+            $selectedPaymentMethod = null;
+        }
+        
+        if (!empty($selectedPaymentMethod) && !$this->canUsePaymentMethodByCode($selectedPaymentMethod)) {
+            $selectedPaymentMethod = null;
+        }
+        
+        if (empty($selectedPaymentMethod)) {
+            if ($firstPaymentMethod = $this->getFirstPayment()) {
+                $data = array(
+                    "method" => $firstPaymentMethod,
+                );
+                try {
+                    $this->getCheckout()->savePayment($data);
+                } catch(Exception $e){
+                    $this->getCheckout()->savePayment();
+                }
+            }
+        }
     }
 }

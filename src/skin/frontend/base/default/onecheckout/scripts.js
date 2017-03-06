@@ -240,6 +240,12 @@ OneCheckout.prototype = {
                 that.update("postcode");
             });
         }
+        
+        if (source == "default" && $('billing:taxvat')) {
+            $('billing:taxvat').observe("blur", function () {
+                that.update("vat_number");
+            });
+        }
 
         if (source == "default" && $("billing:use_for_shipping_yes")) {
             $("billing:use_for_shipping_yes").observe("click", function () {
@@ -305,9 +311,42 @@ OneCheckout.prototype = {
                     this.setTriggers(param);
                 }
             }
-
+            
+            this.evaluateResponseTaxVat(response);
         }
     },
+    evaluateResponseTaxVat: function(response) {
+        var taxvat_el = $('billing:taxvat');
+        var taxvat_label_el = $$('[for="billing:taxvat"]');
+        if (taxvat_el && response.taxvat) {
+            if(response.taxvat.error && response.taxvat.error_message) {
+                var advice = Validation.getAdvice('taxvat_error_custom', taxvat_el) || Validation.createAdvice('taxvat_error_custom', taxvat_el, 'Error', response.taxvat.error_message);
+                Validation.showAdvice(taxvat_el, advice)
+            }else if(!response.taxvat.is_valid){
+                var advice = Validation.getAdvice('taxvat_error_invalid', taxvat_el) || Validation.createAdvice('taxvat_error_invalid', taxvat_el, 'Error', 'Please enter a valid number in this field.');
+                Validation.showAdvice(taxvat_el, advice)
+            }else{
+                Validation.hideAdvice(taxvat_el, Validation.getAdvice('taxvat_error_custom', taxvat_el));
+                Validation.hideAdvice(taxvat_el, Validation.getAdvice('taxvat_error_invalid', taxvat_el));  
+            }
+
+            if(taxvat_label_el.length){
+                if(response.taxvat.is_valid) {
+                    taxvat_label_el[0].addClassName('valid');
+                    taxvat_label_el[0].removeClassName('invalid');
+                }else{
+                    taxvat_label_el[0].addClassName('invalid');
+                    taxvat_label_el[0].removeClassName('valid');
+                }
+            }
+        }else if(taxvat_el && !taxvat_el.value) {
+            //hide validations hints, because taxvat is empty
+            Validation.hideAdvice(taxvat_el, Validation.getAdvice('taxvat_error_custom', taxvat_el));
+            Validation.hideAdvice(taxvat_el, Validation.getAdvice('taxvat_error_invalid', taxvat_el));  
+            taxvat_label_el[0].removeClassName('invalid');
+            taxvat_label_el[0].removeClassName('valid');
+        }
+    }
 };
 
 // billing
@@ -728,6 +767,8 @@ Review.prototype = {
     beforeSave: function () {
         if (checkout.loadWaiting != false)
             return;
+        if(!this.form)
+            return true;
         var validator = new Validation(this.form);
         if (validator.validate()) {
             return true;

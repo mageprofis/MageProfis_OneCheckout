@@ -16,6 +16,7 @@ Requirements
 Compatibility
 -------------
 - Magento >= 1.7.0.2 (up to 1.9.2.0)
+- MageProfis_ExtendedTaxVat (VAT ID check with VIES API) https://github.com/mageprofis/MageProfis_ExtendedTaxVat
 
 Support
 -------

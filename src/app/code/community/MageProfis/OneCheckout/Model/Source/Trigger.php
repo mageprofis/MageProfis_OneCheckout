@@ -16,7 +16,7 @@ extends Mage_Core_Model_Abstract
      */
     public function toOptionArray()
     {
-        $options = array('-none-', 'Country', 'Postcode', 'State/Region', 'Shipping Method', 'Payment Method');
+        $options = array('-none-', 'Country', 'Postcode', 'State/Region', 'VAT Number', 'Shipping Method', 'Payment Method');
         $temp = array();
 
         foreach ($options as $option) {

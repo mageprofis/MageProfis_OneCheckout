@@ -23,12 +23,17 @@ class MageProfis_OneCheckout_Helper_Agreements extends Mage_Core_Helper_Abstract
         return $list;
     }
 
-    public function getLinkedText($agreement)
+    public function getLinkedText($agreement, $template = false)
     {
+        if(!$template) $template = "<a href=\"#\" onclick=\"\$('agreement-content-{{argument_id}}').toggle(); return false;\">{{word}}</a>";
+        
         $text = Mage::helper('core')->escapeHtml($agreement->getCheckboxText(), null);
 
         foreach ($this->getKeywords() as $word) {
-            $text = str_replace($word, "<a href=\"#\" onclick=\"\$('agreement-content-" . $agreement->getId() . "').toggle(); return false;\">$word</a>", $text);
+            $tmp_template = $template;
+            $tmp_template = str_replace('{{word}}', $word, $tmp_template);
+            $tmp_template = str_replace('{{argument_id}}', $agreement->getId(), $tmp_template);
+            $text = str_replace($word, $tmp_template, $text);
         }
         return $text;
     }

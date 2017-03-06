@@ -207,6 +207,7 @@
         <onecheckout>
             <general>
                 <active>0</active>
+                <mobile_active>1</mobile_active>
                 <showcarteditionbutton>0</showcarteditionbutton>
             </general>
             <refresh>

@@ -98,3 +98,24 @@
 .onecheckout-index-index #payment_form_pnsofortueberweisung {
     width: 265px !important;
 }
+
+/* taxvat validation */
+label[for='billing:taxvat'].invalid:after {
+    content: "\002716";
+    margin-left: 5px;
+    color: #fff;
+    background-color: red;
+    padding: 0 2px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+label[for='billing:taxvat'].valid:after {
+    content: "\002714";
+    margin-left: 5px;
+    color: #fff;
+    background-color: green;
+    padding: 0 2px;
+    border-radius: 20px;
+    font-size: 13px;
+}
