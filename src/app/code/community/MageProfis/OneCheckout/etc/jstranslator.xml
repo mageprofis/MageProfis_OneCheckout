@@ -1,0 +1,8 @@
+<jstranslator>
+    <onecheckout-payone-overlay-label translate="message" module="onecheckout">
+        <message>For technical reasons you must enter the complete address.</message>
+    </onecheckout-payone-overlay-label>
+    <onecheckout-payone-overlay-button translate="message" module="onecheckout">
+        <message>Check Address</message>
+    </onecheckout-payone-overlay-button>
+</jstranslator>

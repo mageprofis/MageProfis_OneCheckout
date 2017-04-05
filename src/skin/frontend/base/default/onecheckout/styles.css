@@ -119,3 +119,47 @@ label[for='billing:taxvat'].valid:after {
     border-radius: 20px;
     font-size: 13px;
 }
+
+/* PayOne Overlay */
+#payment_form_payone_creditcard {
+    position: relative;
+}
+#payment_form_payone_creditcard_overlay {
+    position: absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.65);
+    text-align: center;
+    padding:15px;
+    font-size:16px;
+    color:#333;
+}
+
+#payment_form_payone_creditcard_overlay > div{
+    position: relative;
+    top: 50%;
+    transform: translateY(-65%);
+}
+
+#payment_form_payone_creditcard_overlay span {
+    display:block;
+    text-align: center;
+    font-weight:bold;
+}
+
+#payment_form_payone_creditcard_overlay a {
+    display: inline-block;
+    background-color: #ececec;
+    padding: 5px 15px;
+    border-color: 10px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+#payment_form_payone_creditcard_overlay a:hover {
+    text-decoration: none;
+    background-color: #e4e0e0;
+}

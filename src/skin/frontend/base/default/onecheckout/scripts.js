@@ -193,8 +193,10 @@ OneCheckout.prototype = {
                     method: 'post',
                 });
             });
-
         }
+        
+        //payone compatibility
+        this.injectPayOneOverlay();
     },
     setTriggers: function (source) {
         that = this;
@@ -313,7 +315,33 @@ OneCheckout.prototype = {
             }
             
             this.evaluateResponseTaxVat(response);
+            this.injectPayOneOverlay();
         }
+    },
+    injectPayOneOverlay: function()
+    {
+        // check if the billing and shipping address is complete
+        // otherwise show an overlay over the creditcard form
+        
+        var self = this;
+        if($('payment_form_payone_creditcard')!=undefined && $('payment_form_payone_creditcard_overlay')==undefined  && $('p_method_payone_creditcard').checked)
+        {
+            if(billing.beforeSave() && shipping.beforeSave()) {
+                return this;
+            }
+            
+            $('payment_form_payone_creditcard').insert({ bottom: '<div id="payment_form_payone_creditcard_overlay"><div><span class="label">' + Translator.translate('For technical reasons you must enter the complete address.') + '</span><a href="#" id="payment_form_payone_creditcard_overlay_checkbutton">' + Translator.translate('Check Address') + '</a></div></div>' });
+            
+            $('payment_form_payone_creditcard_overlay_checkbutton').observe("click", function (event) {
+                Event.stop(event);
+                
+                if(billing.beforeSave() && shipping.beforeSave()) {
+                    self.update('country');
+                }
+            });
+        }
+        
+        return this;
     },
     evaluateResponseTaxVat: function(response) {
         var taxvat_el = $('billing:taxvat');

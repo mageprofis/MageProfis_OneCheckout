@@ -95,6 +95,9 @@
                     <file>onecheckout.xml</file>
                 </onecheckout>
             </updates>
+            <jstranslate>
+                <file>jstranslator.xml</file>
+            </jstranslate>
         </layout>
         <events>
             <controller_action_predispatch_checkout_onepage_index>
