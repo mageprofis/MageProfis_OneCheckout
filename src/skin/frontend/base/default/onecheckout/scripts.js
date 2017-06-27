@@ -196,7 +196,7 @@ OneCheckout.prototype = {
         }
         
         //payone compatibility
-        this.injectPayOneOverlay();
+        this.injectPayOneOverlay(true);
     },
     setTriggers: function (source) {
         that = this;
@@ -315,10 +315,10 @@ OneCheckout.prototype = {
             }
             
             this.evaluateResponseTaxVat(response);
-            this.injectPayOneOverlay();
+            this.injectPayOneOverlay(false);
         }
     },
-    injectPayOneOverlay: function()
+    injectPayOneOverlay: function(init)
     {
         // check if the billing and shipping address is complete
         // otherwise show an overlay over the creditcard form
@@ -326,8 +326,11 @@ OneCheckout.prototype = {
         var self = this;
         if($('payment_form_payone_creditcard')!=undefined && $('payment_form_payone_creditcard_overlay')==undefined  && $('p_method_payone_creditcard').checked)
         {
-            if(billing.beforeSave() && shipping.beforeSave()) {
-                return this;
+            if(!init)
+            {
+                if(billing.beforeSave() && shipping.beforeSave()) {
+                    return this;
+                }
             }
             
             $('payment_form_payone_creditcard').insert({ bottom: '<div id="payment_form_payone_creditcard_overlay"><div><span class="label">' + Translator.translate('For technical reasons you must enter the complete address.') + '</span><a href="#" id="payment_form_payone_creditcard_overlay_checkbutton">' + Translator.translate('Check Address') + '</a></div></div>' });
