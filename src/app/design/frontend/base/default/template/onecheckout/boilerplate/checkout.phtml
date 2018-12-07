@@ -91,6 +91,7 @@
     checkout = new OneCheckout();
     checkout.ctime = "";
     checkout.saveUrl = "<?php echo $this->getAjaxSaveUrl(); ?>";
+    checkout.reviewUrl = "<?php echo $this->getAjaxReviewUrl(); ?>";
     checkout.failureUrl = "<?php echo $this->getFailureUrl(); ?>";
     checkout.completeUrl = "<?php echo $this->getCompleteUrl(); ?>";
     checkout.successUrl = "<?php echo $this->getSuccessUrl() ?>";
