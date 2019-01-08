@@ -61,7 +61,7 @@ extends Mage_Core_Model_Abstract
         }
     }
 
-    /**
+/**
      * set Addresses
      * check if email address is set!
      */
@@ -70,6 +70,7 @@ extends Mage_Core_Model_Abstract
         Mage::helper('onecheckout')->setAddresses();
         if (!Mage::getSingleton('customer/session')->isLoggedIn())
         {
+            $error = false;
             $params = Mage::app()->getRequest()->getParam('billing');
             $email = isset($params['email']) ? $params['email'] : null;
             if (!$email)
@@ -78,12 +79,21 @@ extends Mage_Core_Model_Abstract
                 /* @var $quote Mage_Sales_Model_Quote */
                 $email = $quote->getBillingAddress()->getEmail();
             }
+            $msg = trim(Mage::helper('onecheckout')->__('Missing email address'));
             if (empty($email))
+            {
+                $error = true;
+            } elseif (!Zend_Validate::is($email, 'EmailAddress')) {
+                $error = true;
+                $msg = trim(Mage::helper('onecheckout')->__('Incorrect email address'));
+            }
+            
+            if ($error)
             {
                 $content = array(
                     'success' => false,
                     'error' => true,
-                    'error_messages' => trim(Mage::helper('onecheckout')->__('Missing email address')),
+                    'error_messages' => $msg,
                 );
                 $json = Mage::helper('core')->jsonEncode($content);
                 Mage::app()
