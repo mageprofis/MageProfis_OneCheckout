@@ -63,10 +63,39 @@ extends Mage_Core_Model_Abstract
 
     /**
      * set Addresses
+     * check if email address is set!
      */
     public function setAddresses($observer)
     {
         Mage::helper('onecheckout')->setAddresses();
+        if (!Mage::getSingleton('customer/session')->isLoggedIn())
+        {
+            $params = Mage::app()->getRequest()->getParam('billing');
+            $email = isset($params['email']) ? $params['email'] : null;
+            if (!$email)
+            {
+                $quote = Mage::getSingleton('checkout/session')->getQuote();
+                /* @var $quote Mage_Sales_Model_Quote */
+                $email = $quote->getBillingAddress()->getEmail();
+            }
+            if (empty($email))
+            {
+                $content = array(
+                    'success' => false,
+                    'error' => true,
+                    'error_messages' => trim(Mage::helper('onecheckout')->__('Missing email address')),
+                );
+                $json = Mage::helper('core')->jsonEncode($content);
+                Mage::app()
+                        ->getResponse()
+                        ->clearAllHeaders()
+                        ->setHeader('Content-Type', 'application/json', true)
+                        ->setBody($json)
+                        ->sendResponse()
+                ;
+                exit;
+            }
+        }
     }
 
     /**
