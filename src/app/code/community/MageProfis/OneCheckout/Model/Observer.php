@@ -61,7 +61,7 @@ extends Mage_Core_Model_Abstract
         }
     }
 
-/**
+    /**
      * set Addresses
      * check if email address is set!
      */
