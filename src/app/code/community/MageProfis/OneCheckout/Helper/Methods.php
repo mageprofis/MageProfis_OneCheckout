@@ -194,7 +194,7 @@ extends Mage_Core_Helper_Abstract
     {
         $quote = $this->getQuote();
         $address = $quote->getShippingAddress();
-        $selectedShippingMethod = $address->getShippingMethod(); 
+        $selectedShippingMethod = $address->getShippingMethod();
         
         if (!empty($selectedShippingMethod) && !$this->canUseShippingMethodByCode($selectedShippingMethod)) {
             $selectedShippingMethod = null;
@@ -224,13 +224,14 @@ extends Mage_Core_Helper_Abstract
         
         if (empty($selectedPaymentMethod)) {
             if ($firstPaymentMethod = $this->getFirstPayment()) {
+                $quote->getPayment()->setData('method_instance', null);
                 $data = array(
                     "method" => $firstPaymentMethod,
                 );
                 try {
                     $this->getCheckout()->savePayment($data);
                 } catch(Exception $e){
-                    $this->getCheckout()->savePayment();
+                    
                 }
             }
         }
